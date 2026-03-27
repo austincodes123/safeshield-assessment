@@ -572,7 +572,7 @@
         <h1>Candidate Assessment</h1>
         <p>Welcome! This assessment helps us understand your work style, instincts, and approach. There are no right or wrong answers.</p>
         <div class="info-box">
-          <p><strong>Time Limit:</strong> 45 minutes<br>
+          <p><strong>Time Limit:</strong> 60 minutes<br>
           <strong>Sections:</strong> 5 sections, 25 questions<br>
           <strong>Format:</strong> Multiple choice, ranking, and short written responses<br>
           <strong>Note:</strong> If the timer runs out, your responses will be automatically submitted.</p>
@@ -597,7 +597,7 @@
     <div class="section-dot"></div>
     <div class="section-dot"></div>
   </div>
-  <span class="timer-clock" id="timerClock">45:00</span>
+  <span class="timer-clock" id="timerClock">60:00</span>
   <div class="timer-progress" id="timerProgress" style="width: 100%"></div>
 </div>
 
@@ -940,7 +940,7 @@
         <p>Thank you for completing the Safeshield Candidate Assessment. Your responses have been submitted successfully and our team has been notified.</p>
         <p style="margin-top: 16px; color: var(--gray-500);">Completed in: <strong id="finalTime" style="color: var(--navy);"></strong></p>
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--gray-200);">
-          <img src="https://gosafeshield.com/images/safeshield-logo.png" alt="Safeshield Insurance" style="height: 36px; opacity: 0.7;">
+          <p style="font-family: 'Playfair Display', serif; font-weight: 900; font-size: 20px; color: #004B89;">Safeshield<span style="color: #FFA300;"> Insurance</span></p>
           <p style="margin-top: 10px; font-size: 13px; color: var(--gray-500);">We Work For You. Not The Insurance Company.</p>
         </div>
       </div>
@@ -957,7 +957,7 @@
 
   // ── State ──
   let timerInterval = null;
-  let totalSeconds = 45 * 60;
+  let totalSeconds = 60 * 60;
   let secondsRemaining = totalSeconds;
   let startTime = null;
   let currentSection = 0;
