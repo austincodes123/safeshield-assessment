@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safeshield Insurance | Candidate Assessment</title>
+<link rel="icon" type="image/png" href="https://gosafeshield.com/images/Blue_and_gold_shield_logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root {
+    --navy: #004B89;
+    --navy-dark: #003366;
+    --gold: #FFA300;
+    --gold-light: #FFB833;
+    --dark: #0a1628;
+    --off-white: #FAFAF8;
+    --gray-100: #f4f4f2;
+    --gray-200: #e8e8e5;
+    --gray-300: #d0d0cc;
+    --gray-500: #8a8a85;
+    --gray-700: #4a4a47;
+    --red: #dc3545;
+    --green: #28a745;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--dark);
+    color: var(--gray-700);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(0,75,137,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(255,163,0,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(0,75,137,0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 40px 20px 30px;
+    margin-bottom: 30px;
+  }
+
+  .header-logo {
+    width: 60px;
+    height: auto;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--off-white);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: var(--gray-500);
+    font-weight: 400;
+  }
+
+  .header .gold-line {
+    width: 60px;
+    height: 3px;
+    background: var(--gold);
+    margin: 16px auto 0;
+    border-radius: 2px;
+  }
+
+  /* ── TIMER BAR ── */
+  .timer-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,22,40,0.97);
+    border-bottom: 1px solid rgba(255,163,0,0.2);
+    padding: 12px 20px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+  }
+
+  .timer-bar.active { display: flex; }
+
+  .timer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .timer-logo { width: 28px; height: auto; }
+
+  .timer-label {
+    font-size: 13px;
+    color: var(--gray-500);
+    font-weight: 500;
+  }
+
+  .timer-clock {
+    font-family: 'Outfit', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  .timer-clock.warning { color: var(--red); animation: pulse 1s infinite; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .timer-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 1s linear;
+  }
+
+  .section-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .section-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.3s ease;
+  }
+
+  .section-dot.active { background: var(--gold); transform: scale(1.2); }
+  .section-dot.completed { background: var(--green); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--off-white);
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--gold));
+  }
+
+  .card-section-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--navy);
+    background: rgba(0,75,137,0.08);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .card .card-desc {
+    font-size: 14px;
+    color: var(--gray-500);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  /* ── FORM ELEMENTS ── */
+  .question-block {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+
+  .question-block:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .question-number {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .question-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .question-context {
+    font-size: 13px;
+    color: var(--gray-500);
+    font-style: italic;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .option-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+  }
+
+  .option-item:hover {
+    border-color: var(--navy);
+    background: rgba(0,75,137,0.02);
+  }
+
+  .option-item.selected {
+    border-color: var(--navy);
+    background: rgba(0,75,137,0.05);
+  }
+
+  .option-item input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid var(--gray-300);
+    border-radius: 50%;
+    margin-top: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .option-item input[type="radio"]:checked {
+    border-color: var(--navy);
+    background: var(--navy);
+  }
+
+  .option-item input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px; height: 8px;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .option-label {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 14px 16px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    resize: vertical;
+    transition: border-color 0.2s ease;
+    background: white;
+    line-height: 1.6;
+  }
+
+  textarea:focus { outline: none; border-color: var(--navy); }
+  textarea::placeholder { color: var(--gray-300); }
+
+  /* ── RANKING ── */
+  .ranking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+
+  .ranking-item:active { cursor: grabbing; }
+  .ranking-item.dragging { opacity: 0.5; border-color: var(--navy); }
+
+  .ranking-item .rank-number {
+    width: 28px; height: 28px; min-width: 28px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--navy); color: white;
+    border-radius: 50%;
+    font-size: 13px; font-weight: 700;
+  }
+
+  .ranking-item .grip {
+    color: var(--gray-300);
+    font-size: 16px;
+    margin-left: auto;
+  }
+
+  /* ── ENTRY SCREEN ── */
+  .entry-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .entry-card {
+    background: var(--off-white);
+    border-radius: 16px;
+    padding: 50px 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .entry-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--navy), var(--gold));
+  }
+
+  .entry-card h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; font-size: 26px;
+    color: var(--dark); margin-bottom: 8px;
+  }
+
+  .entry-card p {
+    color: var(--gray-500);
+    font-size: 14px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  .entry-card input[type="text"] {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    color: var(--dark);
+    text-align: center;
+    margin-bottom: 20px;
+    transition: border-color 0.2s ease;
+  }
+
+  .entry-card input[type="text"]:focus { outline: none; border-color: var(--navy); }
+
+  .info-box {
+    background: rgba(0,75,137,0.06);
+    border-left: 3px solid var(--navy);
+    padding: 14px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  .info-box p { font-size: 13px; color: var(--gray-700); margin: 0; line-height: 1.5; }
+  .info-box strong { color: var(--navy); }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 14px 36px;
+    background: var(--navy); color: white;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 600;
+    border: none; border-radius: 8px;
+    cursor: pointer; transition: all 0.2s ease; width: 100%;
+  }
+  .btn-primary:hover { background: var(--navy-dark); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .btn-next {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px;
+    background: var(--navy); color: white;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 600;
+    border: none; border-radius: 8px;
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .btn-next:hover { background: var(--navy-dark); }
+
+  .btn-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 32px;
+    background: transparent; color: var(--gray-500);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 500;
+    border: 2px solid var(--gray-200); border-radius: 8px;
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .btn-back:hover { border-color: var(--gray-300); color: var(--gray-700); }
+
+  .btn-submit {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 16px 40px;
+    background: var(--gold); color: var(--dark);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px; font-weight: 700;
+    border: none; border-radius: 8px;
+    cursor: pointer; transition: all 0.2s ease; width: 100%;
+  }
+  .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .nav-buttons {
+    display: flex; gap: 12px;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  /* ── SECTIONS ── */
+  .section-view { display: none; }
+  .section-view.active { display: block; }
+
+  /* ── COMPLETION ── */
+  .completion-screen {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .completion-card {
+    background: var(--off-white);
+    border-radius: 16px;
+    padding: 60px 40px;
+    max-width: 550px;
+    margin: 0 auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .completion-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--green), var(--gold));
+  }
+
+  .check-circle {
+    width: 64px; height: 64px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .check-circle svg { width: 32px; height: 32px; stroke: white; }
+
+  .completion-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900; font-size: 26px;
+    color: var(--dark); margin-bottom: 10px;
+  }
+
+  .completion-card p {
+    color: var(--gray-500);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 3px solid rgba(0,0,0,0.2);
+    border-top-color: var(--dark);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 640px) {
+    .card { padding: 28px 20px; }
+    .entry-card { padding: 36px 24px; }
+    .header h1 { font-size: 22px; }
+    .card h2 { font-size: 18px; }
+    .timer-bar { padding: 10px 14px; }
+    .timer-clock { font-size: 17px; }
+    .nav-buttons { flex-direction: column; }
+    .btn-back { order: 2; }
+    .btn-next { order: 1; width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ ENTRY SCREEN ═══ -->
+<div id="entryScreen" class="section-view active">
+  <div class="container">
+    <div class="entry-screen">
+      <img src="https://gosafeshield.com/images/Blue_and_gold_shield_logo.png" alt="Safeshield" class="header-logo" style="margin-bottom: 24px;">
+      <div class="entry-card">
+        <h1>Candidate Assessment</h1>
+        <p>Welcome! This assessment helps us understand your work style, instincts, and approach. There are no right or wrong answers.</p>
+        <div class="info-box">
+          <p><strong>Time Limit:</strong> 45 minutes<br>
+          <strong>Sections:</strong> 5 sections, 25 questions<br>
+          <strong>Format:</strong> Multiple choice, ranking, and short written responses<br>
+          <strong>Note:</strong> If the timer runs out, your responses will be automatically submitted.</p>
+        </div>
+        <input type="text" id="candidateName" placeholder="Enter your full name to begin" autocomplete="off">
+        <button class="btn-primary" id="startBtn" onclick="startAssessment()" disabled>Begin Assessment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TIMER BAR ═══ -->
+<div class="timer-bar" id="timerBar">
+  <div class="timer-left">
+    <img src="https://gosafeshield.com/images/Blue_and_gold_shield_logo.png" alt="" class="timer-logo">
+    <span class="timer-label">Time Remaining</span>
+  </div>
+  <div class="section-dots" id="sectionDots">
+    <div class="section-dot active"></div>
+    <div class="section-dot"></div>
+    <div class="section-dot"></div>
+    <div class="section-dot"></div>
+    <div class="section-dot"></div>
+  </div>
+  <span class="timer-clock" id="timerClock">45:00</span>
+  <div class="timer-progress" id="timerProgress" style="width: 100%"></div>
+</div>
+
+<!-- ═══ SECTION 1: WORK STYLE ═══ -->
+<div id="section1" class="section-view">
+<div class="container">
+  <div class="header">
+    <h1>Work Style & Preferences</h1>
+    <p>Help us understand how you naturally operate in a work environment.</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="card">
+    <span class="card-section-label">Section 1 of 5</span>
+    <h2>How You Work</h2>
+    <p class="card-desc">Select the option that best describes your natural approach. Be honest.</p>
+
+    <div class="question-block">
+      <div class="question-number">Question 1</div>
+      <div class="question-text">When you receive multiple tasks at once, what is your first instinct?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q1" value="I make a list and prioritize by deadline"><span class="option-label">I make a list and prioritize by deadline</span></label>
+        <label class="option-item"><input type="radio" name="q1" value="I tackle the hardest task first to get it out of the way"><span class="option-label">I tackle the hardest task first to get it out of the way</span></label>
+        <label class="option-item"><input type="radio" name="q1" value="I start with the quickest wins to build momentum"><span class="option-label">I start with the quickest wins to build momentum</span></label>
+        <label class="option-item"><input type="radio" name="q1" value="I ask my manager which is most urgent before starting"><span class="option-label">I ask my manager which is most urgent before starting</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 2</div>
+      <div class="question-text">When you encounter a problem you have never seen before, what do you do?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q2" value="Research it myself before asking for help"><span class="option-label">Research it myself before asking for help</span></label>
+        <label class="option-item"><input type="radio" name="q2" value="Immediately ask a colleague or manager for guidance"><span class="option-label">Immediately ask a colleague or manager for guidance</span></label>
+        <label class="option-item"><input type="radio" name="q2" value="Try to solve it on my own, even if it takes longer"><span class="option-label">Try to solve it on my own, even if it takes longer</span></label>
+        <label class="option-item"><input type="radio" name="q2" value="Research it, attempt a solution, then verify with someone experienced"><span class="option-label">Research it, attempt a solution, then verify with someone experienced</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 3</div>
+      <div class="question-text">How do you prefer to receive feedback on your work?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q3" value="Direct and honest, even if it is tough to hear"><span class="option-label">Direct and honest, even if it is tough to hear</span></label>
+        <label class="option-item"><input type="radio" name="q3" value="Constructive with specific examples of how to improve"><span class="option-label">Constructive with specific examples of how to improve</span></label>
+        <label class="option-item"><input type="radio" name="q3" value="In private, one-on-one conversations"><span class="option-label">In private, one-on-one conversations</span></label>
+        <label class="option-item"><input type="radio" name="q3" value="Written so I can review and reflect on it"><span class="option-label">Written so I can review and reflect on it</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 4</div>
+      <div class="question-text">What best describes your ideal work environment?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q4" value="Structured with clear processes and expectations"><span class="option-label">Structured with clear processes and expectations</span></label>
+        <label class="option-item"><input type="radio" name="q4" value="Fast-paced with variety and new challenges"><span class="option-label">Fast-paced with variety and new challenges</span></label>
+        <label class="option-item"><input type="radio" name="q4" value="Collaborative with a strong team culture"><span class="option-label">Collaborative with a strong team culture</span></label>
+        <label class="option-item"><input type="radio" name="q4" value="Independent with autonomy to manage my own workflow"><span class="option-label">Independent with autonomy to manage my own workflow</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 5</div>
+      <div class="question-text">When working remotely across different time zones, what is most important to you?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q5" value="Clear written communication so nothing is missed"><span class="option-label">Clear written communication so nothing is missed</span></label>
+        <label class="option-item"><input type="radio" name="q5" value="Regular scheduled check-ins with my team"><span class="option-label">Regular scheduled check-ins with my team</span></label>
+        <label class="option-item"><input type="radio" name="q5" value="Having documented processes I can follow independently"><span class="option-label">Having documented processes I can follow independently</span></label>
+        <label class="option-item"><input type="radio" name="q5" value="Being trusted to manage my time and deliver results"><span class="option-label">Being trusted to manage my time and deliver results</span></label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <div></div>
+      <button class="btn-next" onclick="goToSection(2)">Continue to Section 2 &rarr;</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ SECTION 2: SITUATIONAL JUDGMENT ═══ -->
+<div id="section2" class="section-view">
+<div class="container">
+  <div class="header">
+    <h1>Situational Judgment</h1>
+    <p>Tell us how you would respond in these real-world workplace scenarios.</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="card">
+    <span class="card-section-label">Section 2 of 5</span>
+    <h2>Your Instincts in Action</h2>
+    <p class="card-desc">These scenarios do not require any specific industry knowledge. We want to see how you think and react.</p>
+
+    <div class="question-block">
+      <div class="question-number">Question 6</div>
+      <div class="question-text">A client emails you urgently about an issue. You do not know the answer, and your manager is unavailable. What do you do?</div>
+      <textarea name="q6" placeholder="Describe how you would handle this situation..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 7</div>
+      <div class="question-text">You discover that a colleague has made an error on a document that is about to be sent to a client. The colleague is senior to you. How do you handle it?</div>
+      <textarea name="q7" placeholder="Describe your approach..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 8</div>
+      <div class="question-text">A client is frustrated and upset about a situation that is not your fault and not within your control. How do you respond?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q8" value="Listen patiently, acknowledge their frustration, and explain what I can do to help"><span class="option-label">Listen patiently, acknowledge their frustration, and explain what I can do to help</span></label>
+        <label class="option-item"><input type="radio" name="q8" value="Redirect them to the person or department that can solve the issue"><span class="option-label">Redirect them to the person or department that can solve the issue</span></label>
+        <label class="option-item"><input type="radio" name="q8" value="Apologize for the inconvenience and try to find a solution myself"><span class="option-label">Apologize for the inconvenience and try to find a solution myself</span></label>
+        <label class="option-item"><input type="radio" name="q8" value="Stay calm, take notes on their concerns, and follow up with a plan"><span class="option-label">Stay calm, take notes on their concerns, and follow up with a plan</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 9</div>
+      <div class="question-text">You are given a task with unclear instructions. What is your approach?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q9" value="Ask clarifying questions before starting"><span class="option-label">Ask clarifying questions before starting</span></label>
+        <label class="option-item"><input type="radio" name="q9" value="Do my best interpretation and check in once I have something to show"><span class="option-label">Do my best interpretation and check in once I have something to show</span></label>
+        <label class="option-item"><input type="radio" name="q9" value="Look at how similar tasks were done in the past for reference"><span class="option-label">Look at how similar tasks were done in the past for reference</span></label>
+        <label class="option-item"><input type="radio" name="q9" value="Complete the task as I understand it and submit it, noting any assumptions"><span class="option-label">Complete the task as I understand it and submit it, noting any assumptions</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 10</div>
+      <div class="question-text">You realize you have made a mistake on something that has already been completed and delivered. What do you do?</div>
+      <textarea name="q10" placeholder="Describe how you would handle this..."></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goToSection(1)">&larr; Back</button>
+      <button class="btn-next" onclick="goToSection(3)">Continue to Section 3 &rarr;</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ SECTION 3: COMMUNICATION STYLE ═══ -->
+<div id="section3" class="section-view">
+<div class="container">
+  <div class="header">
+    <h1>Communication Style</h1>
+    <p>Show us how you communicate in professional situations.</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="card">
+    <span class="card-section-label">Section 3 of 5</span>
+    <h2>How You Communicate</h2>
+    <p class="card-desc">These exercises let us see your natural communication style. Write as you normally would.</p>
+
+    <div class="question-block">
+      <div class="question-number">Question 11</div>
+      <div class="question-text">Write a short email to a client letting them know their request has been received and you will follow up with an answer by end of the next business day.</div>
+      <div class="question-context">Write the full email including a greeting and sign-off. The client's name is Sarah.</div>
+      <textarea name="q11" placeholder="Write your email here..." style="min-height: 160px;"></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 12</div>
+      <div class="question-text">A client asks: "Why should I work with a broker instead of just going directly to the insurance company?" How would you explain this in simple terms?</div>
+      <div class="question-context">You do not need specific knowledge of the US market. Answer based on your understanding of how brokerages work.</div>
+      <textarea name="q12" placeholder="Write your explanation here..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 13</div>
+      <div class="question-text">How would you describe your communication style?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q13" value="Warm and personable, I like to build rapport first"><span class="option-label">Warm and personable, I like to build rapport first</span></label>
+        <label class="option-item"><input type="radio" name="q13" value="Professional and efficient, I get to the point"><span class="option-label">Professional and efficient, I get to the point</span></label>
+        <label class="option-item"><input type="radio" name="q13" value="Detailed and thorough, I make sure nothing is missed"><span class="option-label">Detailed and thorough, I make sure nothing is missed</span></label>
+        <label class="option-item"><input type="radio" name="q13" value="Adaptable, I match my tone to the person I am speaking with"><span class="option-label">Adaptable, I match my tone to the person I am speaking with</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 14</div>
+      <div class="question-text">Your manager sends you a message asking for a status update on three different tasks. Write a brief response.</div>
+      <div class="question-context">Make up the task names and statuses. We want to see how you structure a status update.</div>
+      <textarea name="q14" placeholder="Write your status update here..."></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goToSection(2)">&larr; Back</button>
+      <button class="btn-next" onclick="goToSection(4)">Continue to Section 4 &rarr;</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ SECTION 4: SELF-ASSESSMENT & VALUES ═══ -->
+<div id="section4" class="section-view">
+<div class="container">
+  <div class="header">
+    <h1>Self-Assessment & Values</h1>
+    <p>Help us understand what drives you and what you value most.</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="card">
+    <span class="card-section-label">Section 4 of 5</span>
+    <h2>Who You Are</h2>
+    <p class="card-desc">Reflect honestly on these questions. We want to know the real you.</p>
+
+    <div class="question-block">
+      <div class="question-number">Question 15</div>
+      <div class="question-text">What are you most proud of in your professional career so far?</div>
+      <textarea name="q15" placeholder="Share what you're most proud of..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 16</div>
+      <div class="question-text">What motivates you to do your best work?</div>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="q16" value="Being recognized and appreciated for my contributions"><span class="option-label">Being recognized and appreciated for my contributions</span></label>
+        <label class="option-item"><input type="radio" name="q16" value="Personal growth and learning new things"><span class="option-label">Personal growth and learning new things</span></label>
+        <label class="option-item"><input type="radio" name="q16" value="Being part of a team that is building something meaningful"><span class="option-label">Being part of a team that is building something meaningful</span></label>
+        <label class="option-item"><input type="radio" name="q16" value="Financial stability and providing for my family"><span class="option-label">Financial stability and providing for my family</span></label>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 17</div>
+      <div class="question-text">Rank these qualities in order of importance to you (drag to reorder, #1 being most important):</div>
+      <div class="ranking-list" id="rankingQ17">
+        <div class="ranking-item" draggable="true" data-value="Accuracy and attention to detail">
+          <span class="rank-number">1</span><span>Accuracy and attention to detail</span><span class="grip">&#x2630;</span>
+        </div>
+        <div class="ranking-item" draggable="true" data-value="Speed and efficiency">
+          <span class="rank-number">2</span><span>Speed and efficiency</span><span class="grip">&#x2630;</span>
+        </div>
+        <div class="ranking-item" draggable="true" data-value="Strong client relationships">
+          <span class="rank-number">3</span><span>Strong client relationships</span><span class="grip">&#x2630;</span>
+        </div>
+        <div class="ranking-item" draggable="true" data-value="Taking initiative and ownership">
+          <span class="rank-number">4</span><span>Taking initiative and ownership</span><span class="grip">&#x2630;</span>
+        </div>
+        <div class="ranking-item" draggable="true" data-value="Adaptability and willingness to learn">
+          <span class="rank-number">5</span><span>Adaptability and willingness to learn</span><span class="grip">&#x2630;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 18</div>
+      <div class="question-text">Describe a time you had to learn something completely new for a job. How did you approach it?</div>
+      <textarea name="q18" placeholder="Tell us about that experience..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 19</div>
+      <div class="question-text">What does "going above and beyond" look like to you in a work setting?</div>
+      <textarea name="q19" placeholder="Share your perspective..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 20</div>
+      <div class="question-text">What is your biggest professional weakness, and what are you doing to improve it?</div>
+      <textarea name="q20" placeholder="Be honest here..."></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goToSection(3)">&larr; Back</button>
+      <button class="btn-next" onclick="goToSection(5)">Continue to Section 5 &rarr;</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ SECTION 5: PROBLEM SOLVING ═══ -->
+<div id="section5" class="section-view">
+<div class="container">
+  <div class="header">
+    <h1>Problem Solving & Critical Thinking</h1>
+    <p>Show us how you approach challenges and think through problems.</p>
+    <div class="gold-line"></div>
+  </div>
+  <div class="card">
+    <span class="card-section-label">Section 5 of 5</span>
+    <h2>How You Think</h2>
+    <p class="card-desc">These questions test your analytical thinking and attention to detail.</p>
+
+    <div class="question-block">
+      <div class="question-number">Question 21</div>
+      <div class="question-text">A client has three separate policies. You notice the address is different on one of them. What steps would you take?</div>
+      <textarea name="q21" placeholder="Walk us through your thought process..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 22</div>
+      <div class="question-text">Review the following client details and identify any inconsistencies:</div>
+      <div class="question-context">
+        Client Name: James Peterson<br>
+        Policy #1: Auto Insurance, effective 01/15/2025, address: 42 Maple Dr, Hartford CT<br>
+        Policy #2: Home Insurance, effective 03/01/2025, address: 42 Maple Dr, Hartford CT<br>
+        Policy #3: Umbrella Policy, effective 01/15/2025, named insured: James Petersen<br>
+        Emergency Contact: Wife, Jennifer Peterson, phone: (860) 555-0142
+      </div>
+      <textarea name="q22" placeholder="List any inconsistencies you notice..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 23</div>
+      <div class="question-text">You are responsible for tracking renewal dates for 200 clients. How would you organize this to make sure nothing falls through the cracks?</div>
+      <textarea name="q23" placeholder="Describe your system or approach..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 24</div>
+      <div class="question-text">If you could change one thing about how insurance companies operate, what would it be and why?</div>
+      <div class="question-context">Draw on your experience. There is no right answer.</div>
+      <textarea name="q24" placeholder="Share your thoughts..."></textarea>
+    </div>
+
+    <div class="question-block">
+      <div class="question-number">Question 25</div>
+      <div class="question-text">Why are you interested in working with a US-based insurance brokerage, and what unique value do you believe your experience brings?</div>
+      <textarea name="q25" placeholder="Tell us why this opportunity excites you..." style="min-height: 160px;"></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-back" onclick="goToSection(4)">&larr; Back</button>
+      <button class="btn-submit" id="submitBtn" onclick="submitAssessment()">Submit Assessment</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ COMPLETION SCREEN ═══ -->
+<div id="completionScreen" class="section-view">
+  <div class="container">
+    <div class="completion-screen">
+      <div class="completion-card">
+        <div class="check-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2>Assessment Complete!</h2>
+        <p>Thank you for completing the Safeshield Candidate Assessment. Your responses have been submitted successfully and our team has been notified.</p>
+        <p style="margin-top: 16px; color: var(--gray-500);">Completed in: <strong id="finalTime" style="color: var(--navy);"></strong></p>
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--gray-200);">
+          <img src="https://gosafeshield.com/images/safeshield-logo.png" alt="Safeshield Insurance" style="height: 36px; opacity: 0.7;">
+          <p style="margin-top: 10px; font-size: 13px; color: var(--gray-500);">We Work For You. Not The Insurance Company.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── EmailJS Config ──
+  const EMAILJS_PUBLIC_KEY = 'sVgagkx7NWmTnargc';
+  const EMAILJS_SERVICE_ID = 'service_lwpcz5k';
+  const EMAILJS_TEMPLATE_ID = 'template_thtypse';
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  // ── State ──
+  let timerInterval = null;
+  let totalSeconds = 45 * 60;
+  let secondsRemaining = totalSeconds;
+  let startTime = null;
+  let currentSection = 0;
+
+  // ── Name Input ──
+  const nameInput = document.getElementById('candidateName');
+  const startBtn = document.getElementById('startBtn');
+
+  nameInput.addEventListener('input', () => {
+    startBtn.disabled = nameInput.value.trim().length < 2;
+  });
+  nameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !startBtn.disabled) startAssessment();
+  });
+
+  // ── Start ──
+  function startAssessment() {
+    if (nameInput.value.trim().length < 2) return;
+    startTime = new Date();
+    document.getElementById('entryScreen').classList.remove('active');
+    document.getElementById('section1').classList.add('active');
+    document.getElementById('timerBar').classList.add('active');
+    currentSection = 1;
+    updateDots();
+    startTimer();
+    window.scrollTo(0, 0);
+  }
+
+  // ── Timer ──
+  function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      secondsRemaining--;
+      updateTimerDisplay();
+      document.getElementById('timerProgress').style.width = ((secondsRemaining / totalSeconds) * 100) + '%';
+      if (secondsRemaining <= 300) document.getElementById('timerClock').classList.add('warning');
+      if (secondsRemaining <= 0) { clearInterval(timerInterval); submitAssessment(true); }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const m = Math.floor(secondsRemaining / 60);
+    const s = secondsRemaining % 60;
+    document.getElementById('timerClock').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  }
+
+  function getElapsedTime() {
+    if (!startTime) return 'N/A';
+    const e = Math.floor((new Date() - startTime) / 1000);
+    return Math.floor(e/60) + ' min ' + (e%60) + ' sec';
+  }
+
+  // ── Navigation ──
+  function goToSection(num) {
+    document.getElementById('section' + currentSection).classList.remove('active');
+    document.getElementById('section' + num).classList.add('active');
+    currentSection = num;
+    updateDots();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateDots() {
+    document.querySelectorAll('.section-dot').forEach((dot, i) => {
+      dot.classList.remove('active', 'completed');
+      if (i + 1 === currentSection) dot.classList.add('active');
+      else if (i + 1 < currentSection) dot.classList.add('completed');
+    });
+  }
+
+  // ── Option Selection Visual ──
+  document.addEventListener('change', (e) => {
+    if (e.target.type === 'radio') {
+      const list = e.target.closest('.options-list');
+      list.querySelectorAll('.option-item').forEach(i => i.classList.remove('selected'));
+      e.target.closest('.option-item').classList.add('selected');
+    }
+  });
+
+  // ── Drag-and-Drop Ranking ──
+  function initRanking(id) {
+    const c = document.getElementById(id);
+    let dragged = null;
+
+    c.querySelectorAll('.ranking-item').forEach(item => {
+      item.addEventListener('dragstart', () => { dragged = item; item.classList.add('dragging'); });
+      item.addEventListener('dragend', () => { item.classList.remove('dragging'); dragged = null; updateRankNumbers(c); });
+      item.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const mid = item.getBoundingClientRect().top + item.getBoundingClientRect().height / 2;
+        if (e.clientY < mid) c.insertBefore(dragged, item);
+        else c.insertBefore(dragged, item.nextSibling);
+      });
+
+      // Touch support
+      item.addEventListener('touchstart', () => { dragged = item; item.classList.add('dragging'); }, { passive: true });
+      item.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const t = e.touches[0];
+        const el = document.elementFromPoint(t.clientX, t.clientY);
+        if (el && el.closest('.ranking-item') && el.closest('.ranking-item') !== dragged) {
+          const over = el.closest('.ranking-item');
+          const mid = over.getBoundingClientRect().top + over.getBoundingClientRect().height / 2;
+          if (t.clientY < mid) c.insertBefore(dragged, over);
+          else c.insertBefore(dragged, over.nextSibling);
+        }
+      }, { passive: false });
+      item.addEventListener('touchend', () => { if (dragged) { dragged.classList.remove('dragging'); updateRankNumbers(c); dragged = null; } });
+    });
+  }
+
+  function updateRankNumbers(c) {
+    c.querySelectorAll('.ranking-item').forEach((item, i) => { item.querySelector('.rank-number').textContent = i + 1; });
+  }
+
+  initRanking('rankingQ17');
+
+  // ── Collect Answers ──
+  function collectAnswers() {
+    const a = {};
+    document.querySelectorAll('input[type="radio"]:checked').forEach(r => { a[r.name] = r.value; });
+    document.querySelectorAll('textarea[name]').forEach(t => { a[t.name] = t.value.trim(); });
+    const ranks = [];
+    document.querySelectorAll('#rankingQ17 .ranking-item').forEach((item, i) => { ranks.push((i+1) + '. ' + item.dataset.value); });
+    a.q17_ranking = ranks.join('\n');
+    return a;
+  }
+
+  function fmt(pairs) {
+    let r = '';
+    pairs.forEach(([q, a]) => { r += q + '\nAnswer: ' + (a || '[No response]') + '\n\n'; });
+    return r;
+  }
+
+  // ── Submit ──
+  async function submitAssessment(auto = false) {
+    const btn = document.getElementById('submitBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Submitting...'; }
+    clearInterval(timerInterval);
+
+    const elapsed = getElapsedTime();
+    const a = collectAnswers();
+    const name = nameInput.value.trim();
+
+    const params = {
+      candidate_name: name + (auto ? ' [AUTO-SUBMITTED: Time expired]' : ''),
+      completion_time: elapsed,
+      submission_date: new Date().toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'short' }),
+      section1_results: fmt([
+        ['Q1: When you receive multiple tasks at once, what is your first instinct?', a.q1],
+        ['Q2: When you encounter a problem you have never seen before, what do you do?', a.q2],
+        ['Q3: How do you prefer to receive feedback on your work?', a.q3],
+        ['Q4: What best describes your ideal work environment?', a.q4],
+        ['Q5: When working remotely across different time zones, what is most important to you?', a.q5],
+      ]),
+      section2_results: fmt([
+        ['Q6: A client emails urgently, you dont know the answer, manager unavailable. What do you do?', a.q6],
+        ['Q7: A senior colleague made an error on a document going to a client. How do you handle it?', a.q7],
+        ['Q8: A client is frustrated about something not your fault. How do you respond?', a.q8],
+        ['Q9: You are given a task with unclear instructions. What is your approach?', a.q9],
+        ['Q10: You realize you made a mistake on something already delivered. What do you do?', a.q10],
+      ]),
+      section3_results: fmt([
+        ['Q11: Write an email to Sarah confirming receipt and follow-up by next business day.', a.q11],
+        ['Q12: Explain why a client should work with a broker instead of going direct.', a.q12],
+        ['Q13: How would you describe your communication style?', a.q13],
+        ['Q14: Write a status update to your manager on three tasks.', a.q14],
+      ]),
+      section4_results: fmt([
+        ['Q15: What are you most proud of professionally?', a.q15],
+        ['Q16: What motivates you to do your best work?', a.q16],
+        ['Q17: Rank these qualities in order of importance:', a.q17_ranking],
+        ['Q18: Describe a time you had to learn something completely new.', a.q18],
+        ['Q19: What does going above and beyond look like to you?', a.q19],
+        ['Q20: What is your biggest professional weakness?', a.q20],
+      ]),
+      section5_results: fmt([
+        ['Q21: Client has 3 policies, address differs on one. What steps do you take?', a.q21],
+        ['Q22: Review client details and identify inconsistencies.', a.q22],
+        ['Q23: How would you track renewal dates for 200 clients?', a.q23],
+        ['Q24: If you could change one thing about insurance companies, what would it be?', a.q24],
+        ['Q25: Why are you interested in working with a US-based brokerage?', a.q25],
+      ]),
+    };
+
+    try { await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params); }
+    catch (err) { console.error('EmailJS error:', err); }
+
+    document.getElementById('section5').classList.remove('active');
+    document.getElementById('timerBar').classList.remove('active');
+    document.getElementById('completionScreen').classList.add('active');
+    document.getElementById('finalTime').textContent = elapsed;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
