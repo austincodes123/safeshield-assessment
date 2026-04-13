@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safeshield Insurance -- Tallis Santos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:#0a1628;color:#C8D0D8;font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.screen{display:none}.screen.active{display:block}
+.page-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px 80px}
+.hdr{text-align:center;margin-bottom:40px}
+.hdr .badge{border:2px solid #FFA300;padding:6px 24px;color:#FFA300;font-size:10px;letter-spacing:5px;text-transform:uppercase;font-weight:600;display:inline-block;margin-bottom:20px}
+.hdr h1{font-family:'Playfair Display',serif;font-weight:900;font-size:32px;color:white;letter-spacing:2px;margin-bottom:4px}
+.hdr h2{font-family:'Outfit',sans-serif;font-weight:300;font-size:13px;color:#7A9CC6;letter-spacing:6px;text-transform:uppercase}
+.doc-box{max-width:720px;width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:40px 32px;margin-bottom:32px}
+.doc-box h3{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;color:white;text-align:center;margin-bottom:24px;letter-spacing:1px}
+.doc-intro{font-size:14px;color:#8AA0B8;margin-bottom:24px;line-height:1.7}
+.doc-intro strong{color:white;font-weight:700}
+.clause{margin-bottom:28px}
+.clause h4{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:#FFA300;margin-bottom:8px}
+.clause p{font-size:14px;color:#A0B0C0;line-height:1.7;margin-bottom:8px}
+.clause ul{list-style:none;padding:0;margin:8px 0}
+.clause ul li{font-size:14px;color:#A0B0C0;padding:4px 0 4px 20px;position:relative}
+.clause ul li::before{content:"\2022";color:#FFA300;position:absolute;left:0;font-weight:700}
+.cdiv{width:100%;height:1px;background:rgba(255,163,0,0.15);margin:28px 0}
+.sign-box{max-width:720px;width:100%;background:linear-gradient(135deg,rgba(0,75,137,0.15),rgba(0,75,137,0.05));border:2px solid rgba(0,75,137,0.4);border-radius:16px;padding:32px;margin-bottom:24px}
+.sign-box h3{font-family:'Playfair Display',serif;font-weight:900;font-size:20px;color:white;margin-bottom:20px;text-align:center}
+.sign-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.sign-field{display:flex;flex-direction:column}
+.sign-field label{font-size:11px;color:#7A9CC6;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:6px}
+.sign-field input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:12px 14px;color:white;font-family:'Outfit',sans-serif;font-size:15px;outline:none;transition:border-color 0.3s}
+.sign-field input:focus{border-color:#FFA300}
+.sign-field input::placeholder{color:#4A6A8C}
+.sign-date{font-size:13px;color:#7A9CC6;margin-bottom:16px}
+.sign-date span{color:white;font-weight:600}
+.check-row{display:flex;align-items:flex-start;gap:12px;margin:20px 0;cursor:pointer}
+.check-row input[type="checkbox"]{appearance:none;-webkit-appearance:none;width:22px;height:22px;min-width:22px;border:2px solid rgba(255,163,0,0.5);border-radius:5px;background:transparent;cursor:pointer;position:relative;margin-top:2px;transition:all 0.2s}
+.check-row input[type="checkbox"]:checked{background:#FFA300;border-color:#FFA300}
+.check-row input[type="checkbox"]:checked::after{content:"\2713";color:#0a1628;font-size:14px;font-weight:900;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.check-row label{font-size:14px;color:#B8C4D0;cursor:pointer;line-height:1.5}
+.btn-row{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.btn{padding:14px 28px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:all 0.3s;letter-spacing:0.5px}
+.btn-sign{background:#FFA300;color:#0a1628;flex:1}
+.btn-sign:hover:not(:disabled){background:#FFB733;transform:translateY(-1px);box-shadow:0 4px 20px rgba(255,163,0,0.3)}
+.btn-sign:disabled{opacity:0.3;cursor:not-allowed;transform:none}
+.btn-dl{background:transparent;border:2px solid rgba(255,255,255,0.2);color:#7A9CC6;display:none}
+.btn-dl:hover{border-color:#FFA300;color:#FFA300}
+.btn-dl.show{display:inline-flex;align-items:center;gap:8px}
+.locked-notice{max-width:720px;width:100%;text-align:center;padding:40px 24px;opacity:0.5}
+.locked-notice .lock-icon{font-size:32px;margin-bottom:12px}
+.locked-notice p{color:#4A6A8C;font-size:14px}
+.pen-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,22,40,0.95);z-index:9999;display:none;justify-content:center;align-items:center;flex-direction:column}
+.pen-overlay.show{display:flex}
+.pen-anim{margin-bottom:32px;position:relative;width:220px;height:100px}
+.pen-sig{font-family:'Dancing Script',cursive;font-size:36px;color:#FFA300;opacity:0;white-space:nowrap;overflow:hidden;border-right:2px solid #FFA300}
+.pen-sig.writing{opacity:1;animation:typeSign 1.5s steps(20) forwards, blinkCursor 0.6s step-end 3}
+@keyframes typeSign{from{width:0}to{width:100%}}
+@keyframes blinkCursor{50%{border-color:transparent}}
+.pen-done{font-family:'Playfair Display',serif;font-weight:900;font-size:20px;color:white;opacity:0;margin-top:16px}
+.pen-sub{font-size:14px;color:#7A9CC6;opacity:0;margin-top:8px}
+.pen-done.in,.pen-sub.in{opacity:1;transition:opacity 0.5s ease}
+.signed-conf{display:none;text-align:center;padding:24px;margin-top:16px}
+.signed-conf.show{display:block}
+.signed-conf .chk{font-size:48px;color:#4ADE80;margin-bottom:12px}
+.signed-conf p{color:#4ADE80;font-weight:600;font-size:16px}
+.signed-conf .ts{color:#7A9CC6;font-size:12px;margin-top:4px}
+.section{padding:48px 24px;border-bottom:1px solid rgba(255,163,0,0.12)}
+.cover{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 24px;background:linear-gradient(180deg,#0a1628,#0d1f3c)}
+.cover-badge{border:2px solid #FFA300;padding:6px 24px;color:#FFA300;font-size:10px;letter-spacing:5px;text-transform:uppercase;font-weight:600;margin-bottom:40px;display:inline-block}
+.cover h1{font-family:'Playfair Display',serif;font-weight:900;font-size:44px;color:white;letter-spacing:3px;margin-bottom:4px}
+.cover h2{font-family:'Outfit',sans-serif;font-weight:300;font-size:16px;color:#7A9CC6;letter-spacing:8px;text-transform:uppercase;margin-bottom:40px}
+.gl{width:80px;height:3px;background:#FFA300;margin:0 auto 32px}
+.cover h3{font-family:'Playfair Display',serif;font-weight:900;font-size:26px;color:#FFA300;margin-bottom:12px}
+.cover .tag{color:#7A9CC6;font-size:14px;font-style:italic;margin-bottom:80px}
+.cover .slogan{color:#5A7A9C;font-size:13px;font-weight:500;letter-spacing:1px}
+.cover .contact{color:#3A5A7C;font-size:11px;margin-top:8px}
+.sn{font-size:12px;font-weight:700;color:#FFA300;letter-spacing:4px;margin-bottom:8px}
+.st{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;color:white;margin-bottom:8px;line-height:1.2}
+.sl{width:60px;height:3px;background:#FFA300;margin-bottom:28px}
+p{margin-bottom:16px;color:#B8C4D0}
+.b{font-weight:700;color:white}.g{color:#FFA300}
+.sub{font-family:'Playfair Display',serif;font-weight:700;font-size:20px;color:white;margin-top:32px;margin-bottom:12px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.sc{background:rgba(0,75,137,0.2);border:1px solid rgba(0,75,137,0.4);border-radius:12px;padding:20px 16px;text-align:center}
+.sc-n{font-family:'Playfair Display',serif;font-weight:900;font-size:28px;color:#FFA300}
+.sc-l{font-size:11px;color:#7A9CC6;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-top:4px}
+.q{border-left:3px solid #FFA300;padding:20px;margin:28px 0;background:rgba(0,75,137,0.1);border-radius:0 8px 8px 0}
+.qt{font-family:'Playfair Display',serif;font-weight:700;font-size:17px;color:white;line-height:1.5;margin-bottom:8px}
+.qa{font-size:12px;color:#7A9CC6}
+.ct{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+.ct th{background:#004B89;color:white;padding:12px 14px;text-align:left;font-weight:600;font-size:12px}
+.ct td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.08);color:#B8C4D0}
+.ct tr:nth-child(even) td{background:rgba(0,75,137,0.1)}
+.ct .am{text-align:right;font-weight:700;color:#4ADE80}
+.ct .lb{font-weight:700;color:white}
+.ac{border-radius:16px;padding:32px 24px;text-align:center;margin:24px 0}
+.a-grit{background:rgba(0,75,137,0.15);border:2px solid #004B89}
+.a-clutch{background:rgba(255,163,0,0.08);border:2px solid #FFA300}
+.a-donic{background:linear-gradient(135deg,#0d1f3c,#1a2d4a);border:3px solid #FFA300;box-shadow:0 0 30px rgba(255,163,0,0.15)}
+.an{font-family:'Playfair Display',serif;font-weight:900;font-size:22px;letter-spacing:2px;margin-bottom:6px}
+.a-grit .an{color:#5A9FD4}.a-clutch .an{color:#FFA300}.a-donic .an{color:#FFA300}
+.at{font-size:13px;font-weight:600;margin-bottom:16px}
+.a-grit .at{color:#7A9CC6}.a-clutch .at{color:#D4A030}.a-donic .at{color:#7A9CC6}
+.aa{font-family:'Playfair Display',serif;font-weight:900;font-size:42px;margin-bottom:12px}
+.a-grit .aa{color:white}.a-clutch .aa{color:white}.a-donic .aa{color:#FFA300}
+.ad{font-size:14px;line-height:1.6;color:#8AA0B8}
+.ns{background:rgba(255,163,0,0.06);border:1px solid rgba(255,163,0,0.25);border-radius:10px;padding:16px 20px;margin:20px 0;font-size:13px;color:#D4A030;text-align:center;font-weight:500}
+.watch{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 24px;background:linear-gradient(180deg,#060e1a,#0a1628,#060e1a);border-bottom:3px solid #FFA300;border-top:3px solid #FFA300}
+.w-eye{color:#7A9CC6;font-size:11px;letter-spacing:6px;text-transform:uppercase;font-weight:600;margin-bottom:24px}
+.w-title{font-family:'Playfair Display',serif;font-weight:900;font-size:28px;color:#FFA300;line-height:1.3;margin-bottom:40px}
+.w-num{font-family:'Playfair Display',serif;font-weight:900;font-size:52px;color:white;margin-bottom:8px}
+.w-label{color:#7A9CC6;font-size:14px;font-weight:500;margin-bottom:40px}
+.w-dead{color:white;font-size:16px;font-weight:500}
+.w-gone{color:#FFA300;font-size:16px;font-weight:700;letter-spacing:3px;margin-top:40px}
+.w-sub{color:#4A6A8C;font-size:13px;margin-top:12px;font-style:italic}
+.tp{background:rgba(0,75,137,0.12);border:1px solid rgba(0,75,137,0.3);border-radius:12px;padding:24px 20px;margin:16px 0}
+.tp-t{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#FFA300;margin-bottom:8px}
+.tp-d{font-size:14px;color:#8AA0B8;line-height:1.6}
+.tp-i{font-family:'Playfair Display',serif;font-weight:900;font-size:24px;color:#4ADE80;margin-top:8px}
+.eb{margin-bottom:24px}
+.et{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#FFA300;margin-bottom:6px}
+.closing{text-align:center;padding:80px 24px}
+.closing-t{font-family:'Playfair Display',serif;font-weight:900;font-size:36px;color:white}
+.footer{text-align:center;padding:20px 24px 40px;font-size:11px;color:#3A5A7C}
+.ica-gate{max-width:720px;margin:0 auto;padding:48px 24px}
+.ica-gate .gate-title{font-family:'Playfair Display',serif;font-weight:900;font-size:24px;color:white;text-align:center;margin-bottom:8px}
+.ica-gate .gate-sub{text-align:center;color:#7A9CC6;font-size:14px;margin-bottom:32px}
+/* WELCOME SCREEN */
+.welcome{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 24px;background:linear-gradient(180deg,#060e1a,#0a1628,#0d1f3c);position:relative;overflow:hidden}
+.welcome::before{content:'';position:absolute;top:50%;left:50%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,163,0,0.08) 0%,transparent 70%);transform:translate(-50%,-50%);border-radius:50%;animation:welcomePulse 3s ease-in-out infinite}
+@keyframes welcomePulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.5}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}}
+
+.w-welcome-text{font-size:13px;color:#7A9CC6;letter-spacing:6px;text-transform:uppercase;font-weight:600;opacity:0;animation:wTextIn 0.6s ease forwards 0.5s;margin-bottom:16px}
+.w-name{font-family:'Playfair Display',serif;font-weight:900;font-size:42px;color:white;letter-spacing:3px;opacity:0;animation:wTextIn 0.6s ease forwards 0.9s;margin-bottom:8px}
+.w-role{font-size:15px;color:#FFA300;font-weight:600;letter-spacing:3px;text-transform:uppercase;opacity:0;animation:wTextIn 0.6s ease forwards 1.2s;margin-bottom:48px}
+.w-tagline{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#5A7A9C;opacity:0;animation:wTextIn 0.6s ease forwards 1.5s;margin-bottom:48px;line-height:1.5}
+.w-enter{padding:16px 48px;background:#FFA300;color:#0a1628;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;letter-spacing:1px;opacity:0;animation:wTextIn 0.6s ease forwards 1.9s;transition:all 0.3s}
+.w-enter:hover{background:#FFB733;transform:translateY(-2px);box-shadow:0 6px 30px rgba(255,163,0,0.4)}
+@keyframes wTextIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.w-footer{position:absolute;bottom:32px;font-size:11px;color:#2A4A6C;opacity:0;animation:wTextIn 0.5s ease forwards 2.2s}
+
+/* CONFETTI */
+.confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden}
+.confetti-piece{position:absolute;top:-20px;width:10px;height:10px;opacity:0.9}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(100vh) rotate(720deg) scale(0.3);opacity:0}}
+
+@media(max-width:600px){.sign-row{grid-template-columns:1fr}.doc-box{padding:28px 20px}.sign-box{padding:24px 20px}.btn-row{flex-direction:column}.btn{width:100%;text-align:center}.w-name{font-size:28px}}
+</style>
+</head>
+<body>
+
+<!-- PEN OVERLAY -->
+<div class="pen-overlay" id="pen-overlay">
+  <div class="pen-anim"><div class="pen-sig" id="pen-sig-text"></div></div>
+  <div class="pen-done" id="pen-done"></div>
+  <div class="pen-sub" id="pen-sub"></div>
+</div>
+
+<!-- ===================== SCREEN 0: WELCOME ===================== -->
+<div class="screen active" id="screen-welcome">
+  <div class="welcome">
+    <div class="w-welcome-text">Welcome to Safeshield Insurance</div>
+    <div class="w-name">TALLIS SANTOS</div>
+    <div class="w-role">Producer</div>
+    <div class="w-tagline">Your journey starts here.<br>Let's build something great.</div>
+    <button class="w-enter" onclick="enterNDA()">Open Your Offer Package</button>
+    <div class="w-footer">Safeshield Insurance LLC &bull; Confidential &bull; 2026</div>
+  </div>
+</div>
+
+<!-- ===================== SCREEN 1: NDA ===================== -->
+<div class="screen" id="screen-nda">
+<div class="page-wrap">
+  <div class="hdr"><div class="badge">SAFESHIELD INSURANCE</div><h1>SAFESHIELD</h1><h2>Insurance</h2></div>
+  <div class="doc-box">
+    <h3>CONFIDENTIALITY &amp; NON-DISCLOSURE AGREEMENT</h3>
+    <p class="doc-intro">This Confidentiality and Non-Disclosure Agreement (the "Agreement") is entered into as of the date signed below, by and between <strong>Safeshield Insurance LLC</strong>, a limited liability company with a principal place of business at 2777 Summer St, Stamford, CT ("Safeshield" or the "Company"), and <strong>Tallis Santos</strong> ("Recipient").</p>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>1. Purpose</h4><p>Safeshield intends to disclose certain confidential and proprietary information to Recipient for the purpose of evaluating a potential business relationship, including but not limited to compensation structures, business strategies, operational methods, technology systems, and client-related information.</p></div>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>2. Definition of Confidential Information</h4><p>"Confidential Information" means any and all non-public information disclosed by Safeshield, including but not limited to:</p><ul><li>Compensation structures, commission splits, bonus programs, and incentive plans</li><li>Business strategies, financial data, pricing models, and operational methods</li><li>Client lists, lead sources, referral relationships, and account data</li><li>Proprietary technology, software systems, workflows, scripts, and processes</li><li>Training materials, playbooks, and internal documentation</li><li>Marketing strategies, advertising spend, and campaign data</li><li>Employee and contractor information</li></ul></div>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>3. Obligations of Recipient</h4><p>Recipient agrees to:</p><ul><li>Hold all Confidential Information in strict confidence</li><li>Not disclose, share, publish, or distribute any Confidential Information to any third party without prior written consent from Safeshield</li><li>Not use any Confidential Information for any purpose other than evaluating and/or participating in a business relationship with Safeshield</li><li>Not photograph, screenshot, copy, or reproduce any Confidential Information by any means</li><li>Take all reasonable measures to protect the confidentiality of the information</li></ul></div>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>4. Non-Solicitation</h4><p>During the term of any business relationship with Safeshield and for twenty-four (24) months following its conclusion, Recipient shall not directly or indirectly:</p><ul><li>Solicit or service any Safeshield client, lead, or referral partner</li><li>Solicit or hire any Safeshield employee or contractor</li><li>Circumvent Safeshield to conduct insurance business with any of the Company's relationships</li></ul></div>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>5. Return of Materials</h4><p>Upon request by Safeshield or upon termination of any business relationship, Recipient shall immediately return or destroy all Confidential Information in their possession, including any copies, notes, summaries, or derivatives.</p></div>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>6. Remedies</h4><p>Recipient acknowledges that any breach of this Agreement may cause irreparable harm to Safeshield for which monetary damages may be insufficient. Safeshield shall be entitled to seek injunctive relief in addition to any other remedies available at law or in equity.</p></div>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>7. Term</h4><p>The obligations of confidentiality and non-disclosure under this Agreement shall survive for a period of five (5) years from the date of disclosure of any Confidential Information, regardless of whether a business relationship is established.</p></div>
+    <div class="cdiv"></div>
+    <div class="clause"><h4>8. Governing Law</h4><p>This Agreement shall be governed by and construed in accordance with the laws of the <strong>State of Connecticut</strong>. Any dispute arising from this Agreement shall be resolved by binding arbitration seated in Connecticut.</p></div>
+  </div>
+
+  <div class="sign-box">
+    <h3>Digital Signature</h3>
+    <div style="margin-bottom:24px"><p style="font-size:11px;color:#7A9CC6;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:12px">SAFESHIELD INSURANCE LLC</p><div style="border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:16px;margin-bottom:8px"><p style="font-family:'Dancing Script',cursive;font-size:32px;color:white;font-weight:700;margin-bottom:2px;line-height:1.2">Austin Glazer</p></div><p style="font-size:14px;color:white;font-weight:600;margin-bottom:2px">Austin Glazer</p><p style="font-size:12px;color:#7A9CC6;margin-bottom:0">President, Safeshield Insurance LLC</p><p style="font-size:11px;color:#4A6A8C;margin-bottom:0">Date: <span class="auto-date"></span></p></div>
+    <div class="cdiv" style="margin:16px 0"></div>
+    <p style="font-size:13px;color:#7A9CC6;margin-bottom:12px;font-weight:600">RECIPIENT</p>
+    <div class="sign-row"><div class="sign-field"><label>Full Legal Name</label><input type="text" id="nda-name" placeholder="Type your full legal name"></div><div class="sign-field"><label>Address</label><input type="text" id="nda-address" placeholder="Your full address"></div></div>
+    <div class="sign-date">Date: <span class="auto-date"></span></div>
+    <div class="check-row" onclick="document.getElementById('nda-agree').click()"><input type="checkbox" id="nda-agree"><label for="nda-agree">I, the undersigned, have read and agree to all terms of this Confidentiality and Non-Disclosure Agreement with Safeshield Insurance LLC. I consent to signing this agreement electronically and acknowledge that my electronic signature has the same legal effect as a handwritten signature. I understand this constitutes a binding agreement and that the information disclosed following this signature is strictly confidential.</label></div>
+    <div class="btn-row"><button class="btn btn-sign" id="nda-btn" disabled onclick="signNDA()">Sign &amp; View Compensation Plan</button><button class="btn btn-dl" id="nda-dl" onclick="downloadNDA()">&#8681; Download Signed NDA</button></div>
+    <div class="signed-conf" id="nda-conf"><div class="chk">&#10003;</div><p>NDA Signed Successfully</p><p class="ts" id="nda-ts"></p><p style="color:#D4A030;font-size:12px;margin-top:12px;font-style:italic">Please download a copy of your signed agreement for your records.</p></div>
+  </div>
+
+  <div class="locked-notice" id="nda-locked"><div class="lock-icon">&#128274;</div><p>Your Safeshield Producer Playbook and Compensation Plan will be unlocked after you sign the Confidentiality Agreement above.</p></div>
+</div>
+</div>
+
+<!-- ===================== SCREEN 2: PLAYBOOK + ICA ===================== -->
+<div class="screen" id="screen-playbook">
+  <div class="cover"><div class="cover-badge">SAFESHIELD INSURANCE</div><h1>SAFESHIELD</h1><h2>Insurance</h2><div class="gl"></div><h3>PRODUCER PLAYBOOK</h3><p class="tag">Your guide to building wealth through insurance</p><p style="color:white;font-family:'Playfair Display',serif;font-weight:900;font-size:18px;margin-top:40px;margin-bottom:8px;letter-spacing:1px;">Prepared for</p><p style="color:#FFA300;font-family:'Playfair Display',serif;font-weight:900;font-size:24px;letter-spacing:2px;margin-bottom:60px;">TALLIS SANTOS</p><p class="slogan">We Work For You. Not The Insurance Company.</p><p class="contact">gosafeshield.com &bull; (203) 204-2555 &bull; Confidential</p></div>
+
+  <div class="section"><div class="sn">01</div><div class="st">This Is Safeshield</div><div class="sl"></div><p>Safeshield Insurance isn't just another agency. It was built on a simple promise: <span class="b">"We Work For You. Not The Insurance Company."</span> Every decision, every carrier appointment, every piece of technology is designed to put clients first and empower producers to win.</p><p>Safeshield was built from scratch by Austin Glazer -- a nationally ranked top producer who left the captive world to build something bigger. No inherited book. No acquisition. No investors. No shortcuts. Every client was earned through outwork, out-hustle, and out-care. In under three years, Safeshield has become one of the fastest-growing independent agencies in the Northeast.</p><p><span class="b">What you're walking into:</span></p><div class="sg"><div class="sc"><div class="sc-n">68+</div><div class="sc-l">Carriers</div></div><div class="sc"><div class="sc-n">5 States</div><div class="sc-l">NY CT NJ PA DE</div></div><div class="sc"><div class="sc-n">CASEY</div><div class="sc-l">Proprietary AI System</div></div><div class="sc"><div class="sc-n">Atlas</div><div class="sc-l">Marketing Engine</div></div></div><p>We don't just sell insurance. We build technology. <span class="b">CASEY</span> is our proprietary AI-powered operating system that handles workflows, client management, deal tracking, and agency intelligence. <span class="b">Atlas</span> is our marketing engine running multi-channel campaigns across Google, Meta, and local SEO driving leads directly to our producers.</p><p>Our website at <span class="g">gosafeshield.com</span> is a 43-page, SEO-optimized platform with 20+ blog posts, individual producer profile pages, and carrier landing pages. Our brand identity -- the navy and gold shield, "We Work For You" -- is built to be recognized and remembered.</p><p>Most new producers spend their first year begging for carrier appointments, fumbling with technology, and trying to build a brand from nothing. <span class="b">You start with everything already built.</span> 68+ carriers ready to quote. Leads coming in. Technology running. A brand that clients trust.</p><p><span class="b">The only thing missing is your production.</span></p><div class="q"><div class="qt">"Opportunities don't happen. You create them."</div><div class="qa">- Chris Grosser</div></div></div>
+
+  <div class="section"><div class="sn">02</div><div class="st">What We Expect</div><div class="sl"></div><p>Safeshield producers are held to a standard. These aren't suggestions. <span class="b">This is how we operate.</span></p><div class="eb"><div class="et">Your Phone</div><p>Your phone is your most important tool. Clients call, you answer. If you can't answer, you call back within 30 minutes. No exceptions. A missed call is a missed opportunity. A missed renewal call is money out of both our pockets. Your phone should be on, charged, and within reach during all business hours.</p></div><div class="eb"><div class="et">Your Email</div><p>Every client email gets a response within 2 hours during business days. Even if the answer is "I'm looking into this and will get back to you by end of day." Silence kills trust. Trust kills retention. Retention kills your income.</p></div><div class="eb"><div class="et">Renewals Are Everything</div><p>This is where your wealth is built. Every policy you write renews 12 months later. If that client stays, you get paid again without lifting a finger. If they leave because you didn't pick up the phone, that's money you'll never get back.</p><p>You are responsible for keeping your clients happy and retained. That means proactive outreach 60 days before expiration. Know when your clients' policies are up. Be the reason they stay, not the reason they leave.</p></div><div class="eb"><div class="et">Daily Activity</div><p>Production doesn't happen by accident. You should be quoting every single day. Following up on every lead the same day it comes in. Tracking your pipeline. If you're not quoting, you're not earning. If you're not following up, someone else is. This business rewards the relentless.</p></div><div class="eb"><div class="et">Represent the Brand</div><p>When you pick up the phone, you are Safeshield. When you send an email, you are Safeshield. When you meet a client, you are Safeshield. Every interaction reflects everything we've built. Professionalism is the minimum, not the ceiling.</p></div><div class="eb"><div class="et">Use the Systems</div><p>Every quote, every bind, every client interaction gets logged in NowCerts. No exceptions. If it's not in the system, it didn't happen. Use CASEY for workflow management. The tools exist to make you faster so you can focus on what pays: selling and servicing.</p></div><div class="q"><div class="qt">"Hard work beats talent when talent doesn't work hard."</div><div class="qa">- Tim Notke</div></div></div>
+
+  <div class="section"><div class="sn">03</div><div class="st">Your Compensation</div><div class="sl"></div><p>Your compensation is built to reward production and create long-term wealth. The more you write, the more you make. The longer you stay, the bigger it gets. <span class="b">There is no ceiling.</span></p><div class="sub">Base Compensation</div><table class="ct"><tr><th>Component</th><th>Detail</th></tr><tr><td class="lb">New Business Commission</td><td>50% of agency commission on every policy you write</td></tr><tr><td class="lb">Renewal Commission</td><td>30% of agency commission on every policy that renews</td></tr><tr><td class="lb">Monthly Stipend</td><td>$1,000/month for 12 months</td></tr></table><div class="sub">How It Works</div><p>When you write a policy, the carrier pays Safeshield a commission -- typically around 12% of the premium. You earn a percentage of that. Here's a real example:</p><table class="ct"><tr><th>You write a $5,000 homeowners policy</th><th style="text-align:right">Amount</th></tr><tr><td>Carrier pays Safeshield (12%)</td><td style="text-align:right;color:#7A9CC6">$600</td></tr><tr><td class="lb">You earn -- new business (50%)</td><td class="am">$300</td></tr><tr><td class="lb">When it renews -- year 2 (30%)</td><td class="am">$180</td></tr><tr><td class="lb">Year 3</td><td class="am">$180</td></tr><tr><td class="lb">Year 4, 5, 6, 7, 8...</td><td class="am">$180 forever</td></tr></table><p style="margin-top:20px"><span class="b">One policy. $300 today. $180 every year after that for as long as the client stays.</span> Write 300 policies in your first year and that renewal income becomes life-changing money.</p><p>That's the game. That's how wealth is built in this business. Not overnight. Policy by policy. Year by year. Until one day you wake up and your renewal book is paying you more than most people's salary.</p><div class="q"><div class="qt">"The best time to plant a tree was 20 years ago. The second best time is now."</div><div class="qa">- Chinese Proverb</div></div></div>
+
+  <div class="section"><div class="sn">04</div><div class="st">The Awards</div><div class="sl"></div><p style="font-size:17px;color:white;">Every quarter your new business production is measured. Hit the number, earn the award. <span class="b">These aren't participation trophies. These are earned.</span></p><div class="ns">Awards are based on new business premium only. You earn the highest tier you hit -- awards are not stackable.</div><div class="ac a-grit"><div class="an">THE GRIT AWARD</div><div class="at">$150,000+ new business premium in a quarter</div><div class="aa">$3,000</div><div class="ad">You outworked everyone. You showed up every single day and ground it out. This is where legends start.</div></div><div class="ac a-clutch"><div class="an">THE CLUTCH AWARD</div><div class="at">$225,000+ new business premium in a quarter</div><div class="aa">$5,000</div><div class="ad">When the pressure was on, you delivered. You found deals others couldn't find. You closed when it mattered most.</div></div><div class="ac a-donic"><div class="an">THE DONIC AWARD</div><div class="at">$500,000+ new business premium in a quarter</div><div class="aa">$8,000</div><div class="ad">Undeniable. Unstoppable. Elite. The highest honor a Safeshield producer can earn.</div></div><div class="sub">Chargeback Protection</div><p>If a policy counted toward a quarterly award cancels within 6 months, the premium is deducted from the following quarter's bonus calculation. We reward production that lasts.</p><div class="q"><div class="qt">"I'm not in the business of making excuses. I'm in the business of making money."</div></div></div>
+
+  <div class="watch"><div class="w-eye">THE GRAND PRIZE</div><div class="gl"></div><div class="w-title">THE SAFESHIELD<br>TOP PRODUCER<br>TIMEPIECE</div><div class="gl"></div><div class="w-num">$1,250,000</div><div class="w-label">in cumulative new business premium</div><div class="w-dead">Hit it by June 2027</div><div class="gl" style="margin-top:40px"></div><div class="w-gone">YEAR ONE ONLY.<br>MISS IT, IT'S GONE.</div><div class="w-sub">This opportunity will never be offered again.</div></div>
+
+  <div class="section"><div class="sn">05</div><div class="st">The Long Game</div><div class="sl"></div><p><span class="b" style="font-size:17px;">This is the most important section of this entire document. Read it twice.</span></p><p>Insurance is not a get-rich-quick business. It is a <span class="b">get-rich-for-certain</span> business. The producers who build wealth in this industry understand one concept: <span class="g">compounding renewals.</span></p><p>Every policy you write today pays you again next year. And the year after. Your book of business is an asset that grows every single year as long as you keep your clients happy and keep writing new business on top. The math is simple. The discipline is hard. But the result is inevitable.</p><div class="q"><div class="qt">"Compound interest is the eighth wonder of the world. He who understands it, earns it. He who doesn't, pays it."</div><div class="qa">- Albert Einstein</div></div><div class="sub">Here's What Patience Looks Like</div><p>Think about it this way. Every policy you write today pays you commission. When it renews next year, you get paid again. And the year after that. And the year after that. Meanwhile you're still writing new business on top of those renewals.</p><p><span class="b">Year one, you're building the foundation.</span> Year two, the renewals start stacking. Year three, the stack gets bigger. By year five, your renewal income alone starts to become serious money. By year ten, producers who stayed the course in this industry are earning multiples of what they made in year one.</p><p>The math is simple and it is inevitable. The only variable is how hard you work and how long you stay. The producers making $200K, $300K, $500K per year didn't get there by switching careers every two years. They got there by grinding through the early years and letting the renewals compound.</p><p><span class="b">The longer you do this, the more you make. Every year is better than the last. There is no ceiling. There is no cap.</span></p><div class="q"><div class="qt">"The stock market is a device for transferring money from the impatient to the patient."</div><div class="qa">- Warren Buffett</div></div><div class="sub">Year One Is the Hardest</div><p>Every successful producer went through it. Every agency owner went through it. The ones who made it through year one and kept grinding are the ones earning $200K, $300K, $500K per year today.</p><p>The ones who quit because year one was hard? They're still looking for their next thing.</p><p><span class="b">Be patient. Be consistent. Trust the process. The math works. It always works. You just have to stay long enough to see it.</span></p><div class="q"><div class="qt">"It's not about how hard you hit. It's about how hard you can get hit and keep moving forward."</div><div class="qa">- Rocky Balboa</div></div></div>
+
+  <div class="section"><div class="sn">06</div><div class="st">Build Your Own Team</div><div class="sl"></div><p>Here's where it gets exciting. At Safeshield, you don't just earn on your own production. <span class="b">You can build a team underneath you and earn on everything they write.</span></p><p>As you grow and prove yourself, you'll have the opportunity to recruit, train, and develop new producers under your wing. When they produce, you earn an override on their commission. They win, you win, the agency wins.</p><p>This is how you go from making a great income to building <span class="g">real wealth.</span></p><div class="tp"><div class="tp-t">Solo Producer</div><div class="tp-d">You write $750K/year. Your income by year 5:</div><div class="tp-i">$120,000/year</div></div><div class="tp"><div class="tp-t">Producer + 1 Team Member</div><div class="tp-d">You write $750K + you earn an override on a team member writing $500K. Your income by year 5:</div><div class="tp-i">$148,000+/year</div></div><div class="tp"><div class="tp-t">Producer + 2 Team Members</div><div class="tp-d">Your production plus overrides on two producers underneath you. Your income by year 5:</div><div class="tp-i">$175,000+/year</div></div><div class="tp"><div class="tp-t">Producer + 3 Team Members</div><div class="tp-d">You're a sales leader now. Your own book plus three producers building under you. Your income by year 5:</div><div class="tp-i">$200,000+/year</div></div><p style="margin-top:24px">Every producer you develop is a revenue stream you didn't have before. <span class="b">Your ceiling isn't your own production. Your ceiling is the size of the team you build.</span></p><p>The best producers in the insurance industry don't just sell. They build teams. They become leaders. They create something bigger than themselves. That opportunity exists here at Safeshield for anyone willing to earn it.</p><div class="q"><div class="qt">"If you want to go fast, go alone. If you want to go far, go together."</div><div class="qa">- African Proverb</div></div></div>
+
+  <div class="closing"><div class="gl"></div><div style="margin:32px 0"><div class="closing-t">Now go sell.</div></div><div class="gl"></div></div>
+
+  <!-- ICA GATE -->
+  <div class="ica-gate">
+    <div class="gate-title">One Last Step</div>
+    <div class="gate-sub">Sign the Independent Contractor Agreement to officially join the team.</div>
+    <div class="doc-box">
+      <h3>INDEPENDENT CONTRACTOR AGREEMENT</h3>
+      <p class="doc-intro">This Independent Contractor Agreement (the "Agreement") is entered into as of the date signed below, by and between <strong>Safeshield Insurance LLC</strong>, 2777 Summer St, Stamford, CT ("Safeshield"), and <strong>Tallis Santos</strong> ("Contractor").</p>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>1. Scope of Services</h4><p>Contractor shall provide insurance related services to Safeshield, which may include training participation, lead generation, outbound calling, client communications, servicing assistance, administrative support, sales support, and other duties as assigned.</p><p>Safeshield may modify the Services at its discretion. Failure to comply with Company procedures may result in reduction or forfeiture of compensation and/or termination.</p><p>Contractor acknowledges that unless properly licensed, Contractor shall not quote, bind, advise on coverage, or represent themselves as a licensed insurance producer.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>2. Training &amp; Performance</h4><p>Contractor agrees to actively participate in all required training, meetings, and performance reviews. Continued eligibility for compensation is contingent upon satisfactory participation, effort, and compliance.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>3. Licensing &amp; Compliance</h4><p>Contractor is solely responsible for obtaining and maintaining all required licenses. Contractor shall indemnify Safeshield from any regulatory violation or unauthorized activity.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>4. Compensation</h4><p>All compensation arrangements are non-vested, discretionary, subject to change, earned only after policies are bound and Safeshield receives commission, and subject to chargebacks and offsets. No entitlement to renewals or post-termination compensation unless agreed in writing.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>5. Expenses</h4><p>Contractor is solely responsible for all costs and expenses unless agreed otherwise in writing.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>6. Term &amp; Termination</h4><p>Agreement is at will. Safeshield may terminate at any time. Contractor may terminate upon 30 days written notice. Upon termination: all property returned, system access ceases, unpaid compensation may be forfeited upon breach.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>7. Ownership of Book of Business</h4><p>All clients, leads, policies, renewals, and business relationships are and shall remain the exclusive property of Safeshield. Contractor has no ownership interest and no right to solicit or service accounts after termination.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>8. Confidentiality</h4><p>Contractor shall not disclose, misuse, copy, or exploit Safeshield's confidential information. Contractor shall not replicate or reverse engineer Safeshield systems or processes.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>9. Non-Solicitation</h4><p>For 24 months post-termination, Contractor shall not solicit Safeshield clients, employees, or contractors, or circumvent Safeshield to conduct insurance business with Company relationships.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>10. Intellectual Property</h4><p>All work product is deemed work made for hire and exclusive property of Safeshield.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>11. Independent Contractor</h4><p>Contractor is not an employee. No benefits, tax withholding, or employment protections apply.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>12. Indemnification</h4><p>Contractor shall indemnify Safeshield from any claims arising from Contractor's acts, omissions, or breach.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>13. Governing Law</h4><p>Governed by <strong>State of Connecticut</strong> law. Disputes resolved by binding arbitration in Connecticut.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>14. Survival</h4><p>Confidentiality, ownership, non-solicitation, IP, indemnification, and dispute resolution survive termination.</p></div>
+      <div class="cdiv"></div>
+      <div class="clause"><h4>15. Entire Agreement</h4><p>This Agreement constitutes the entire agreement. Amendments must be in writing and signed by both Parties.</p></div>
+    </div>
+
+    <div class="sign-box">
+      <h3>Digital Signature</h3>
+      <div style="margin-bottom:24px"><p style="font-size:11px;color:#7A9CC6;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:12px">SAFESHIELD INSURANCE LLC</p><div style="border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:16px;margin-bottom:8px"><p style="font-family:'Dancing Script',cursive;font-size:32px;color:white;font-weight:700;margin-bottom:2px;line-height:1.2">Austin Glazer</p></div><p style="font-size:14px;color:white;font-weight:600;margin-bottom:2px">Austin Glazer</p><p style="font-size:12px;color:#7A9CC6;margin-bottom:0">President, Safeshield Insurance LLC</p><p style="font-size:11px;color:#4A6A8C;margin-bottom:0">Date: <span class="auto-date"></span></p></div>
+      <div class="cdiv" style="margin:16px 0"></div>
+      <p style="font-size:13px;color:#7A9CC6;margin-bottom:12px;font-weight:600">CONTRACTOR</p>
+      <div class="sign-row"><div class="sign-field"><label>Full Legal Name</label><input type="text" id="ica-name" placeholder="Type your full legal name"></div><div class="sign-field"><label>Address</label><input type="text" id="ica-address" placeholder="Your full address"></div></div>
+      <div class="sign-date">Date: <span class="auto-date"></span></div>
+      <div class="check-row" onclick="document.getElementById('ica-agree').click()"><input type="checkbox" id="ica-agree"><label for="ica-agree">I, the undersigned, have read and agree to all terms of this Independent Contractor Agreement with Safeshield Insurance LLC. I consent to signing this agreement electronically and acknowledge that my electronic signature has the same legal effect as a handwritten signature. I understand that this constitutes a binding agreement.</label></div>
+      <div class="btn-row"><button class="btn btn-sign" id="ica-btn" disabled onclick="signICA()">Sign Independent Contractor Agreement</button><button class="btn btn-dl" id="ica-dl" onclick="downloadICA()">&#8681; Download Signed Agreement</button></div>
+      <div class="signed-conf" id="ica-conf"><div class="chk">&#10003;</div><p>Independent Contractor Agreement Signed</p><p class="ts" id="ica-ts"></p><p style="color:#D4A030;font-size:12px;margin-top:8px;font-style:italic">Please download a copy of your signed agreement for your records.</p><p style="color:#FFA300;font-size:14px;margin-top:16px;font-weight:600">Welcome to Safeshield, Tallis.</p></div>
+    </div>
+  </div>
+
+  <div class="footer"><p>Safeshield Insurance LLC &bull; Confidential &bull; 2026</p><p>gosafeshield.com &bull; (203) 204-2555 &bull; austin@gosafeshield.com</p></div>
+</div>
+
+<!-- NETLIFY FORMS -->
+<form name="nda-signature" netlify netlify-honeypot="bot-field" hidden><input name="bot-field"><input name="signer-name"><input name="signer-address"><input name="date-signed"><input name="ip-address"><input name="user-agent"><input name="document-type"><input name="document-version"><input name="screen-resolution"><input name="timezone"><input name="e-sign-consent"></form>
+<form name="ica-signature" netlify netlify-honeypot="bot-field" hidden><input name="bot-field"><input name="contractor-name"><input name="contractor-address"><input name="date-signed"><input name="ip-address"><input name="user-agent"><input name="document-type"><input name="document-version"><input name="screen-resolution"><input name="timezone"><input name="e-sign-consent"></form>
+
+<script>
+const now=new Date();
+const dateStr=now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+document.querySelectorAll('.auto-date').forEach(el=>el.textContent=dateStr);
+let userIP='unavailable';
+fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{userIP=d.ip}).catch(()=>{});
+function getTS(){return now.toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});}
+
+// Version hashes
+const NDA_VERSION='NDA-TS-v1-2026-04';
+const ICA_VERSION='ICA-TS-v1-2026-04';
+
+function getFingerprint(){
+  return {screen:window.screen.width+'x'+window.screen.height,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,language:navigator.language,platform:navigator.platform};
+}
+
+// Welcome screen transition
+function enterNDA(){
+  document.getElementById('screen-welcome').style.opacity='0';
+  document.getElementById('screen-welcome').style.transition='opacity 0.6s ease';
+  setTimeout(function(){
+    document.getElementById('screen-welcome').classList.remove('active');
+    document.getElementById('screen-nda').classList.add('active');
+    window.scrollTo(0,0);
+  },600);
+}
+
+// Confetti
+function fireConfetti(){
+  const container=document.createElement('div');
+  container.className='confetti-container';
+  document.body.appendChild(container);
+  const colors=['#FFA300','#004B89','#4ADE80','#FFD700','#FF6B6B','#7A9CC6','#FFFFFF','#FF8C00'];
+  const shapes=['square','circle','rect'];
+  for(let i=0;i<150;i++){
+    const piece=document.createElement('div');
+    piece.className='confetti-piece';
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    const shape=shapes[Math.floor(Math.random()*shapes.length)];
+    const size=Math.random()*8+6;
+    piece.style.left=Math.random()*100+'%';
+    piece.style.width=size+'px';
+    piece.style.height=(shape==='rect'?size*2.5:size)+'px';
+    piece.style.background=color;
+    piece.style.borderRadius=(shape==='circle'?'50%':'2px');
+    piece.style.animation='confettiFall '+(Math.random()*2+2)+'s ease-out '+(Math.random()*1.5)+'s forwards';
+    container.appendChild(piece);
+  }
+  setTimeout(()=>container.remove(),6000);
+}
+
+// Scroll-to-bottom enforcement
+let ndaScrolled=false, icaScrolled=false;
+
+function setupScrollWatch(boxSelector, flag, btnId){
+  // Find the doc-box inside the screen
+  const boxes=document.querySelectorAll(boxSelector);
+  if(!boxes.length) return;
+  const box=boxes[0];
+  // Use window scroll since doc-box doesn't scroll independently
+  function checkScroll(){
+    const rect=box.getBoundingClientRect();
+    // User has scrolled past the bottom of the doc box
+    if(rect.bottom <= window.innerHeight + 100){
+      if(flag==='nda') ndaScrolled=true;
+      if(flag==='ica') icaScrolled=true;
+      // Re-check the button state
+      if(flag==='nda') chkNDA();
+      if(flag==='ica') chkICA();
+    }
+  }
+  window.addEventListener('scroll',checkScroll);
+}
+
+// Initialize scroll watchers after DOM ready
+setupScrollWatch('#screen-nda .doc-box','nda','nda-btn');
+// ICA scroll watcher setup when playbook loads
+const playbookObserver=new MutationObserver(function(){
+  if(document.getElementById('screen-playbook').classList.contains('active')){
+    setTimeout(()=>setupScrollWatch('.ica-gate .doc-box','ica','ica-btn'),500);
+    playbookObserver.disconnect();
+  }
+});
+playbookObserver.observe(document.getElementById('screen-playbook'),{attributes:true,attributeFilter:['class']});
+
+function showPen(sigName,doneText,subText,cb){
+  const o=document.getElementById('pen-overlay');
+  const sig=document.getElementById('pen-sig-text');
+  const done=document.getElementById('pen-done');
+  const sub=document.getElementById('pen-sub');
+  sig.textContent=sigName;sig.className='pen-sig';
+  done.textContent=doneText;done.className='pen-done';
+  sub.textContent=subText;sub.className='pen-sub';
+  o.classList.add('show');
+  setTimeout(()=>{sig.classList.add('writing');},100);
+  setTimeout(()=>{done.classList.add('in');},1800);
+  setTimeout(()=>{sub.classList.add('in');},2200);
+  setTimeout(()=>{o.classList.remove('show');if(cb)cb();},3500);
+}
+
+// NDA
+const ndaN=document.getElementById('nda-name'),ndaA=document.getElementById('nda-address'),ndaC=document.getElementById('nda-agree'),ndaB=document.getElementById('nda-btn');
+function chkNDA(){ndaB.disabled=!(ndaN.value.trim().length>2&&ndaA.value.trim().length>2&&ndaC.checked&&ndaScrolled);}
+ndaN.addEventListener('input',chkNDA);ndaA.addEventListener('input',chkNDA);ndaC.addEventListener('change',chkNDA);
+
+async function signNDA(){
+  const ts=getTS(),name=ndaN.value.trim(),addr=ndaA.value.trim(),fp=getFingerprint();
+  const fd=new URLSearchParams();
+  fd.append('form-name','nda-signature');
+  fd.append('signer-name',name);
+  fd.append('signer-address',addr);
+  fd.append('date-signed',ts);
+  fd.append('ip-address',userIP);
+  fd.append('user-agent',navigator.userAgent);
+  fd.append('document-type','Confidentiality & Non-Disclosure Agreement - Tallis Santos');
+  fd.append('document-version',NDA_VERSION);
+  fd.append('screen-resolution',fp.screen);
+  fd.append('timezone',fp.timezone);
+  fd.append('e-sign-consent','Yes - consented to electronic signature');
+  try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:fd.toString()});}catch(e){}
+  showPen(name,'NDA Signed','Confidentiality Agreement secured',function(){
+    document.getElementById('nda-conf').classList.add('show');
+    document.getElementById('nda-ts').textContent='Signed: '+ts+' by '+name;
+    ndaN.disabled=true;ndaA.disabled=true;ndaC.disabled=true;ndaB.style.display='none';
+    document.getElementById('nda-dl').classList.add('show');
+    document.getElementById('nda-locked').style.display='none';
+    document.getElementById('ica-name').value=name;
+    document.getElementById('ica-address').value=addr;
+    setTimeout(function(){document.getElementById('screen-nda').classList.remove('active');document.getElementById('screen-playbook').classList.add('active');window.scrollTo(0,0);},1200);
+  });
+}
+
+// ICA
+const icaN=document.getElementById('ica-name'),icaA=document.getElementById('ica-address'),icaC=document.getElementById('ica-agree'),icaB=document.getElementById('ica-btn');
+function chkICA(){icaB.disabled=!(icaN.value.trim().length>2&&icaA.value.trim().length>2&&icaC.checked&&icaScrolled);}
+icaN.addEventListener('input',chkICA);icaA.addEventListener('input',chkICA);icaC.addEventListener('change',chkICA);
+
+async function signICA(){
+  const ts=getTS(),name=icaN.value.trim(),addr=icaA.value.trim(),fp=getFingerprint();
+  const fd=new URLSearchParams();
+  fd.append('form-name','ica-signature');
+  fd.append('contractor-name',name);
+  fd.append('contractor-address',addr);
+  fd.append('date-signed',ts);
+  fd.append('ip-address',userIP);
+  fd.append('user-agent',navigator.userAgent);
+  fd.append('document-type','Independent Contractor Agreement - Tallis Santos');
+  fd.append('document-version',ICA_VERSION);
+  fd.append('screen-resolution',fp.screen);
+  fd.append('timezone',fp.timezone);
+  fd.append('e-sign-consent','Yes - consented to electronic signature');
+  try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:fd.toString()});}catch(e){}
+  showPen(name,'Agreement Signed','Welcome to Safeshield',function(){
+    fireConfetti();
+    document.getElementById('ica-conf').classList.add('show');
+    document.getElementById('ica-ts').textContent='Signed: '+ts+' by '+name;
+    icaN.disabled=true;icaA.disabled=true;icaC.disabled=true;icaB.style.display='none';
+    document.getElementById('ica-dl').classList.add('show');
+  });
+}
+
+// Downloads
+function dlFile(text,fn){const b=new Blob([text],{type:'text/plain'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=fn;a.click();URL.revokeObjectURL(u);}
+
+function buildAudit(name,addr,label,version){
+  const ts=getTS(),fp=getFingerprint();
+  let a='\n\n'+'='.repeat(50)+'\nDIGITAL AUDIT TRAIL\n'+'='.repeat(50)+'\n';
+  a+='Document: '+label+'\n';
+  a+='Document Version: '+version+'\n';
+  a+='Signed via: hiring.gosafeshield.com\n';
+  a+='E-Sign Consent: Yes - signer consented to electronic signature\n\n';
+  a+='Signer: '+name+'\n';
+  a+='Address: '+addr+'\n';
+  a+='Timestamp: '+ts+'\n';
+  a+='IP Address: '+userIP+'\n';
+  a+='User Agent: '+navigator.userAgent+'\n';
+  a+='Screen Resolution: '+fp.screen+'\n';
+  a+='Timezone: '+fp.timezone+'\n';
+  a+='Language: '+fp.language+'\n';
+  a+='Platform: '+fp.platform+'\n\n';
+  a+='Safeshield Insurance LLC\n';
+  a+='Signature: Austin Glazer [digitally pre-signed]\n';
+  a+='Title: President, Safeshield Insurance LLC\n';
+  a+='Date: '+dateStr+'\n\n';
+  a+='Recipient/Contractor\n';
+  a+='Signature: '+name+' [digitally signed]\n';
+  a+='Date: '+ts+'\n';
+  a+='Signer scrolled to bottom of agreement before signing: Yes\n';
+  return a;
+}
+
+function downloadNDA(){
+  let t='CONFIDENTIALITY & NON-DISCLOSURE AGREEMENT\n'+'='.repeat(50)+'\n\nState of Connecticut | '+dateStr+'\nDocument Version: '+NDA_VERSION+'\n\n';
+  t+='Between Safeshield Insurance LLC and '+ndaN.value.trim()+'\n\n';
+  t+='1. PURPOSE: Safeshield intends to disclose confidential information for evaluating a potential business relationship.\n\n';
+  t+='2. CONFIDENTIAL INFORMATION: Includes compensation structures, business strategies, client data, proprietary technology, training materials, marketing strategies, and employee information.\n\n';
+  t+='3. OBLIGATIONS: Recipient shall hold information in strict confidence, not disclose to third parties, not use for purposes outside the business relationship, and not copy or reproduce.\n\n';
+  t+='4. NON-SOLICITATION: For 24 months post-relationship, Recipient shall not solicit Safeshield clients, employees, contractors, or circumvent Company relationships.\n\n';
+  t+='5. RETURN OF MATERIALS: Upon request or termination, all Confidential Information must be returned or destroyed.\n\n';
+  t+='6. REMEDIES: Breach may cause irreparable harm. Safeshield entitled to injunctive relief.\n\n';
+  t+='7. TERM: Confidentiality obligations survive 5 years from disclosure.\n\n';
+  t+='8. GOVERNING LAW: State of Connecticut. Binding arbitration.\n';
+  t+=buildAudit(ndaN.value.trim(),ndaA.value.trim(),'Confidentiality & Non-Disclosure Agreement',NDA_VERSION);
+  dlFile(t,'Safeshield_NDA_Tallis_Santos.txt');
+}
+
+function downloadICA(){
+  let t='INDEPENDENT CONTRACTOR AGREEMENT\n'+'='.repeat(50)+'\n\nState of Connecticut | '+dateStr+'\nDocument Version: '+ICA_VERSION+'\n\n';
+  t+='Between Safeshield Insurance LLC and '+icaN.value.trim()+'\n\n';
+  t+='1. SCOPE OF SERVICES: Insurance related services including training, lead generation, calling, client communications, servicing, admin support, sales.\n\n';
+  t+='2. TRAINING & PERFORMANCE: Active participation required. Continued compensation contingent on satisfactory performance.\n\n';
+  t+='3. LICENSING: Contractor responsible for all licenses and regulatory compliance.\n\n';
+  t+='4. COMPENSATION: Non-vested, discretionary, subject to change, earned after policies bound, subject to chargebacks.\n\n';
+  t+='5. EXPENSES: Contractor responsible unless agreed otherwise.\n\n';
+  t+='6. TERMINATION: At will. 30 days notice from Contractor. All property returned on termination.\n\n';
+  t+='7. BOOK OF BUSINESS: All clients and relationships are exclusive Safeshield property.\n\n';
+  t+='8. CONFIDENTIALITY: No disclosure or misuse of Safeshield information.\n\n';
+  t+='9. NON-SOLICITATION: 24 months post-termination.\n\n';
+  t+='10. INTELLECTUAL PROPERTY: All work product is Safeshield property.\n\n';
+  t+='11. INDEPENDENT CONTRACTOR: Not an employee. No benefits or protections.\n\n';
+  t+='12. INDEMNIFICATION: Contractor indemnifies Safeshield.\n\n';
+  t+='13. GOVERNING LAW: State of Connecticut. Binding arbitration.\n\n';
+  t+='14. SURVIVAL: Key sections survive termination.\n\n';
+  t+='15. ENTIRE AGREEMENT: Supersedes all prior agreements. Written amendments only.\n';
+  t+=buildAudit(icaN.value.trim(),icaA.value.trim(),'Independent Contractor Agreement',ICA_VERSION);
+  dlFile(t,'Safeshield_IC_Agreement_Tallis_Santos.txt');
+}
+</script>
+</body>
+</html>
