@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Safeshield Insurance -- Marshelene Beukes</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -419,81 +420,282 @@ async function signAll(){
 // Download
 function downloadAll(){
   const ts=getTS(),name=sigN.value.trim(),email=sigE.value.trim(),fp=getFP();
-  let t='';
-  t+='SAFESHIELD INSURANCE LLC - ONBOARDING DOCUMENTS\n';
-  t+='Signed by: '+name+'\n';
-  t+='Date: '+ts+'\n';
-  t+='='.repeat(60)+'\n\n';
+  const{jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:'pt',format:'letter'});
+  const W=612,M=50,CW=W-2*M;
+  let y=50;
+  const navy=[0,75,137],gold=[255,163,0],black=[0,0,0],gray=[100,100,100],dgray=[60,60,60],white=[255,255,255];
 
-  t+='DOCUMENT 1: CONFIDENTIALITY & NON-DISCLOSURE AGREEMENT\n';
-  t+='-'.repeat(60)+'\n\n';
-  t+='Between Safeshield Insurance LLC and '+name+'\n\n';
-  t+='1. PURPOSE: Governs handling of confidential information during and after engagement.\n\n';
-  t+='2. CONFIDENTIAL INFORMATION: Client data, proprietary systems (CASEY, NowCerts), business strategies, carrier relationships, training materials, marketing data, employee information.\n\n';
-  t+='3. OBLIGATIONS: Strict confidence, no disclosure, no personal use, no copying/screenshots, no storage on unauthorized devices.\n\n';
-  t+='4. NON-SOLICITATION: 24 months post-engagement. No soliciting clients, employees, or circumventing company relationships.\n\n';
-  t+='5. INTELLECTUAL PROPERTY: All work product is exclusive Safeshield property.\n\n';
-  t+='6. RETURN OF MATERIALS: Return all property and confirm no data retained.\n\n';
-  t+='7. LIQUIDATED DAMAGES: $12,000 USD for material breach of Sections 3, 4, or 5.\n\n';
-  t+='8. REMEDIES: Injunctive relief in CT and/or South Africa without proving actual damages.\n\n';
-  t+='9. ACKNOWLEDGMENT OF REASONABLENESS: Signer acknowledges restrictions are reasonable, necessary, not unduly burdensome, entered voluntarily with opportunity for legal counsel.\n\n';
-  t+='10. GOVERNING LAW: State of Connecticut and/or Republic of South Africa. Dual jurisdiction. Prevailing party recovers legal fees.\n\n';
-  t+='11. SURVIVAL: Confidentiality 5 years. Non-solicitation 24 months.\n\n';
-  t+='12. SEVERABILITY: Invalid provisions modified to minimum extent; invalidity in one jurisdiction does not affect another.\n\n';
+  function addPage(){pdf.addPage();y=50;}
+  function checkY(need){if(y+need>730)addPage();}
 
-  t+='='.repeat(60)+'\n\n';
-  t+='DOCUMENT 2: INDEPENDENT CONTRACTOR AGREEMENT\n';
-  t+='-'.repeat(60)+'\n\n';
-  t+='1. SCOPE: Virtual insurance assistant services.\n';
-  t+='2. TRAINING: Structured onboarding May 1-29, 2026.\n';
-  t+='3. COMPENSATION: $2,000 USD/month, biweekly via Wise.\n';
-  t+='4. HOURS: M-F 9AM-5PM ET.\n';
-  t+='5. EQUIPMENT: Company laptop, Safeshield property, subject to monitoring/remote wipe.\n';
-  t+='6. IC STATUS: Not an employee. Responsible for own taxes (W-8BEN).\n';
-  t+='7. TERMINATION: 14 days notice. Immediate for cause.\n';
-  t+='8. WORK PRODUCT: Exclusive Safeshield property.\n';
-  t+='9. CONFIDENTIALITY: Per NDA executed concurrently.\n';
-  t+='10. INDEMNIFICATION: Contractor indemnifies Safeshield.\n';
-  t+='11. GOVERNING LAW: CT and/or South Africa.\n';
-  t+='12. ENTIRE AGREEMENT: With Offer Letter, NDA, and AUP.\n\n';
+  function header(){
+    pdf.setFillColor(...navy);pdf.rect(0,0,W,4,'F');
+    pdf.setFillColor(...gold);pdf.rect(0,4,W,2,'F');
+    pdf.setFont('helvetica','bold');pdf.setFontSize(11);pdf.setTextColor(...navy);
+    pdf.text('SAFESHIELD INSURANCE',W/2,30,{align:'center'});
+    pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(...gray);
+    pdf.text('We Work For You. Not The Insurance Company.',W/2,40,{align:'center'});
+    y=60;
+  }
 
-  t+='='.repeat(60)+'\n\n';
-  t+='DOCUMENT 3: ACCEPTABLE USE POLICY\n';
-  t+='-'.repeat(60)+'\n\n';
-  t+='1. DEVICE: Safeshield property only. No personal software/files. No sharing.\n';
-  t+='2. CREDENTIALS: Strong passwords, 2FA, no sharing, log out daily.\n';
-  t+='3. DATA: Authorized systems only. No transfers to personal devices/accounts.\n';
-  t+='4. INTERNET: No personal use during work. No social media posting of company info.\n';
-  t+='5. MONITORING: Safeshield may monitor all activity. No expectation of privacy.\n';
-  t+='6. RETURN: Device returned or remote wiped within 48 hours of termination.\n';
-  t+='7. VIOLATIONS: Immediate termination and legal remedies.\n\n';
+  function goldLine(){
+    pdf.setDrawColor(...gold);pdf.setLineWidth(1.5);pdf.line(M,y,W-M,y);y+=12;
+  }
 
-  t+='='.repeat(60)+'\n\n';
-  t+='DIGITAL AUDIT TRAIL\n';
-  t+='='.repeat(60)+'\n';
-  t+='Documents Signed: NDA + Independent Contractor Agreement + Acceptable Use Policy\n';
-  t+='Document Version: '+DOC_VERSION+'\n';
-  t+='Signed via: careers.gosafeshield.com\n';
-  t+='E-Sign Consent: Yes\n\n';
-  t+='Signer: '+name+'\n';
-  t+='Email: '+email+'\n';
-  t+='Timestamp: '+ts+'\n';
-  t+='IP Address: '+userIP+'\n';
-  t+='User Agent: '+navigator.userAgent+'\n';
-  t+='Screen: '+fp.screen+'\n';
-  t+='Timezone: '+fp.timezone+'\n';
-  t+='Platform: '+fp.platform+'\n\n';
-  t+='Safeshield Insurance LLC\n';
-  t+='Signature: Austin Glazer [digitally pre-signed]\n';
-  t+='Title: President\n';
-  t+='Date: '+dateStr+'\n\n';
-  t+='Contractor/Recipient\n';
-  t+='Signature: '+name+' [digitally signed]\n';
-  t+='Date: '+ts+'\n';
-  t+='Signer scrolled through all documents: Yes\n';
+  function grayLine(){
+    pdf.setDrawColor(200,200,200);pdf.setLineWidth(0.5);pdf.line(M,y,W-M,y);y+=10;
+  }
 
-  const blob=new Blob([t],{type:'text/plain'}),u=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=u;a.download='Safeshield_Agreements_Marshelene_Beukes.txt';a.click();URL.revokeObjectURL(u);
+  function docTitle(t){
+    checkY(30);
+    pdf.setFont('helvetica','bold');pdf.setFontSize(14);pdf.setTextColor(...navy);
+    pdf.text(t,W/2,y,{align:'center'});y+=20;
+  }
+
+  function docLabel(t){
+    checkY(20);
+    pdf.setFillColor(255,163,0,0.1);pdf.setDrawColor(...gold);
+    pdf.roundedRect(M,y-8,120,16,3,3,'FD');
+    pdf.setFont('helvetica','bold');pdf.setFontSize(7);pdf.setTextColor(...gold);
+    pdf.text(t,M+8,y+1);y+=16;
+  }
+
+  function secHead(t){
+    checkY(24);
+    pdf.setFont('helvetica','bold');pdf.setFontSize(10.5);pdf.setTextColor(...navy);
+    pdf.text(t,M,y);y+=14;
+  }
+
+  function body(t){
+    checkY(14);
+    pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(...dgray);
+    const lines=pdf.splitTextToSize(t,CW);
+    for(const line of lines){checkY(12);pdf.text(line,M,y);y+=11;}
+    y+=4;
+  }
+
+  function bullet(t){
+    checkY(14);
+    pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(...dgray);
+    const lines=pdf.splitTextToSize(t,CW-16);
+    pdf.setTextColor(...gold);pdf.text('\u2022',M+4,y);
+    pdf.setTextColor(...dgray);
+    for(let i=0;i<lines.length;i++){checkY(12);pdf.text(lines[i],M+16,y);y+=11;}
+    y+=2;
+  }
+
+  function footer(){
+    pdf.setDrawColor(200,200,200);pdf.setLineWidth(0.5);pdf.line(M,740,W-M,740);
+    pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(...gray);
+    pdf.text('Safeshield Insurance LLC  |  2777 Summer St, Stamford, CT  |  (203) 204-2555  |  gosafeshield.com  |  Confidential',W/2,752,{align:'center'});
+  }
+
+  // === PAGE 1: NDA ===
+  header();goldLine();
+  docLabel('DOCUMENT 1 OF 3');
+  docTitle('CONFIDENTIALITY & NON-DISCLOSURE AGREEMENT');
+  body('Between Safeshield Insurance LLC and '+name+' | '+dateStr);
+  grayLine();
+
+  secHead('1. Purpose');
+  body('Safeshield intends to disclose certain confidential and proprietary information to Recipient in connection with Recipient\'s engagement as a Virtual Insurance Assistant. This Agreement governs the handling, protection, and permissible use of such information during and after the term of engagement.');
+
+  secHead('2. Confidential Information');
+  body('Includes but is not limited to:');
+  bullet('Client lists, contact information, policy details, renewal dates, and account data');
+  bullet('Proprietary technology systems including CASEY, NowCerts configurations, workflows, and scripts');
+  bullet('Business strategies, financial data, commission structures, pricing models, and operational methods');
+  bullet('Carrier relationships, appointment details, and underwriting guidelines');
+  bullet('Training materials, playbooks, internal documentation, and SOPs');
+  bullet('Marketing strategies, advertising spend, lead sources, and campaign data');
+  bullet('Employee and contractor compensation, roles, and internal communications');
+
+  secHead('3. Obligations of Recipient');
+  bullet('Hold all Confidential Information in strict confidence');
+  bullet('Not disclose, share, publish, post, or distribute to any third party');
+  bullet('Not use for any purpose other than performing duties for Safeshield');
+  bullet('Not photograph, screenshot, copy, download to personal devices, or reproduce by any means');
+  bullet('Not store on any unauthorized device, account, or platform');
+  bullet('Immediately notify Safeshield of any unauthorized disclosure or access');
+
+  secHead('4. Non-Solicitation and Non-Circumvention');
+  body('During engagement and for 24 months following, Recipient shall not:');
+  bullet('Solicit, contact, or service any Safeshield client, lead, or referral partner');
+  bullet('Solicit, recruit, or hire any Safeshield employee or contractor');
+  bullet('Circumvent Safeshield to conduct insurance business with Company relationships');
+  bullet('Use Confidential Information to compete with or benefit any competing business');
+
+  secHead('5. Intellectual Property and Work Product');
+  body('All work product created in connection with the engagement shall be deemed work made for hire and the exclusive property of Safeshield Insurance LLC.');
+
+  secHead('6. Return of Materials');
+  body('Upon termination, Recipient shall return all company property, delete all Confidential Information, and confirm in writing that no data has been retained.');
+
+  secHead('7. Liquidated Damages');
+  body('In the event of material breach of Sections 3, 4, or 5, Recipient shall pay $12,000 USD (six months compensation) as liquidated damages, in addition to any other remedies. This represents a genuine pre-estimate of loss and is not a penalty.');
+
+  secHead('8. Remedies and Injunctive Relief');
+  body('Safeshield shall be entitled to injunctive relief without proving actual damages. Recipient consents to injunctive relief in any court of competent jurisdiction, including courts in the State of Connecticut and courts in the Republic of South Africa.');
+
+  secHead('9. Acknowledgment of Reasonableness');
+  body('Recipient acknowledges the restrictions are reasonable and necessary, do not impose undue hardship, and were entered into voluntarily with the opportunity to seek independent legal counsel.');
+
+  secHead('10. Governing Law and Jurisdiction');
+  body('Governed by State of Connecticut law. Enforcement may also be sought under South African law. Safeshield may bring action in CT courts/arbitration or South African courts at its discretion. Prevailing party recovers legal fees.');
+
+  secHead('11. Survival');
+  body('Confidentiality: 5 years. Non-solicitation: 24 months post-termination.');
+
+  secHead('12. Severability');
+  body('Invalid provisions modified to minimum extent necessary. Invalidity in one jurisdiction does not affect validity in another.');
+
+  footer();
+
+  // === DOC 2: ICA ===
+  addPage();header();goldLine();
+  docLabel('DOCUMENT 2 OF 3');
+  docTitle('INDEPENDENT CONTRACTOR AGREEMENT');
+  body('Between Safeshield Insurance LLC and '+name+' | '+dateStr);
+  grayLine();
+
+  secHead('1. Scope of Services');
+  body('Virtual insurance assistant services including client communication, policy servicing, renewal management, data entry, administrative support, and other duties as assigned.');
+
+  secHead('2. Training & Performance');
+  body('Structured onboarding May 1-29, 2026. Active participation required. Continued compensation contingent on satisfactory performance.');
+
+  secHead('3. Compensation');
+  body('$2,000 USD per month, paid biweekly ($1,000 per pay period) via Wise. Annual review at year-end. Contractor responsible for all South African tax obligations.');
+
+  secHead('4. Work Hours & Availability');
+  body('Monday through Friday, 9:00 AM to 5:00 PM US Eastern Time. Contractor must maintain reliable internet and a quiet workspace.');
+
+  secHead('5. Equipment');
+  body('Company-provided laptop remains sole property of Safeshield. No personal software or files. Subject to monitoring and remote wipe at any time. Must be returned within 48 hours of termination.');
+
+  secHead('6. Independent Contractor Status');
+  body('Contractor is not an employee. Not entitled to benefits, tax withholding, or employment protections. Must complete IRS Form W-8BEN.');
+
+  secHead('7. Termination');
+  body('Either party: 14 days written notice. Immediate termination for gross misconduct, breach of confidentiality, unauthorized data access, failure to return equipment, abandonment (3+ days), or misrepresentation.');
+
+  secHead('8. Work Product');body('All work product is exclusive Safeshield property.');
+  secHead('9. Confidentiality');body('Per NDA executed concurrently with this Agreement.');
+  secHead('10. Indemnification');body('Contractor indemnifies Safeshield from all claims arising from Contractor\'s acts, omissions, or breach.');
+  secHead('11. Governing Law');body('State of Connecticut and/or Republic of South Africa. Binding arbitration in Stamford, CT.');
+  secHead('12. Entire Agreement');body('Together with Offer Letter, NDA, and Acceptable Use Policy. Written amendments only.');
+
+  footer();
+
+  // === DOC 3: AUP ===
+  addPage();header();goldLine();
+  docLabel('DOCUMENT 3 OF 3');
+  docTitle('ACCEPTABLE USE POLICY');
+  body('Governing use of company-provided equipment and Safeshield systems by '+name);
+  grayLine();
+
+  secHead('1. Company-Provided Device');
+  bullet('Use exclusively for Safeshield business');
+  bullet('No personal software, applications, browser extensions, or VPN services');
+  bullet('No personal files, photos, music, or non-work content');
+  bullet('No sharing the device with any other person');
+  bullet('Keep physically secure at all times');
+  bullet('Report damage, loss, theft, or malfunction immediately');
+
+  secHead('2. System Access & Credentials');
+  bullet('Strong, unique passwords for all accounts');
+  bullet('Never share login credentials with anyone');
+  bullet('Enable two-factor authentication where available');
+  bullet('Log out of all systems at end of each workday');
+  bullet('Report suspected unauthorized access immediately');
+
+  secHead('3. Data Handling');
+  bullet('Access client data only through authorized systems (NowCerts, CASEY, Google Workspace)');
+  bullet('Never transfer, copy, download, or export data to personal devices or accounts');
+  bullet('Never screenshot or photograph client data or internal dashboards');
+  bullet('Process all client communications through official channels only');
+
+  secHead('4. Internet & Communication');
+  bullet('No personal social media, streaming, or gaming during work hours');
+  bullet('No illegal, inappropriate, or harmful content on the device');
+  bullet('No posting of Safeshield information on social media or public forums');
+
+  secHead('5. Monitoring & Compliance');
+  body('Safeshield may monitor, audit, and log all activity on the company device and systems at any time without notice. Contractor has no expectation of privacy on company equipment.');
+
+  secHead('6. Return of Equipment');
+  body('Device must be returned or made available for remote wipe within 48 hours of termination. Failure to comply results in forfeiture of outstanding compensation.');
+
+  secHead('7. Violations');
+  body('Any violation may result in immediate termination and pursuit of legal remedies per the NDA.');
+
+  footer();
+
+  // === SIGNATURES & AUDIT ===
+  addPage();header();goldLine();
+  docTitle('SIGNATURES & DIGITAL AUDIT TRAIL');
+  y+=8;
+
+  pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...navy);
+  pdf.text('SAFESHIELD INSURANCE LLC',M,y);y+=20;
+  pdf.setFont('helvetica','italic');pdf.setFontSize(22);pdf.setTextColor(...dgray);
+  pdf.text('Austin Glazer',M,y);y+=6;
+  pdf.setDrawColor(...black);pdf.setLineWidth(0.5);pdf.line(M,y,M+200,y);y+=14;
+  pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...black);
+  pdf.text('Austin Glazer',M,y);y+=12;
+  pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(...gray);
+  pdf.text('President, Safeshield Insurance LLC',M,y);y+=10;
+  pdf.text('Date: '+dateStr,M,y);y+=10;
+  pdf.text('Status: Digitally pre-signed',M,y);y+=24;
+
+  grayLine();
+
+  pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...navy);
+  pdf.text('CONTRACTOR / RECIPIENT',M,y);y+=20;
+  pdf.setFont('helvetica','italic');pdf.setFontSize(22);pdf.setTextColor(...dgray);
+  pdf.text(name,M,y);y+=6;
+  pdf.setDrawColor(...black);pdf.line(M,y,M+200,y);y+=14;
+  pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...black);
+  pdf.text(name,M,y);y+=12;
+  pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(...gray);
+  pdf.text('Email: '+email,M,y);y+=10;
+  pdf.text('Date Signed: '+ts,M,y);y+=10;
+  pdf.text('Status: Digitally signed via careers.gosafeshield.com',M,y);y+=24;
+
+  goldLine();y+=4;
+
+  pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(...navy);
+  pdf.text('DIGITAL AUDIT TRAIL',M,y);y+=16;
+
+  pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(...dgray);
+  const auditLines=[
+    'Documents Signed: NDA + Independent Contractor Agreement + Acceptable Use Policy',
+    'Document Version: '+DOC_VERSION,
+    'Signed via: careers.gosafeshield.com/marshelene',
+    'E-Sign Consent: Yes - consented to electronic signature',
+    '',
+    'Signer: '+name,
+    'Email: '+email,
+    'Timestamp: '+ts,
+    'IP Address: '+userIP,
+    'User Agent: '+navigator.userAgent.substring(0,90),
+    'Screen Resolution: '+fp.screen,
+    'Timezone: '+fp.timezone,
+    'Platform: '+fp.platform,
+    '',
+    'Signer scrolled through all documents before signing: Yes',
+    'Individual checkbox consent provided for each document: Yes',
+    'E-sign consent checkbox separately acknowledged: Yes'
+  ];
+  for(const line of auditLines){
+    if(line===''){y+=4;continue;}
+    const split=pdf.splitTextToSize(line,CW);
+    for(const s of split){pdf.text(s,M,y);y+=10;}
+  }
+
+  footer();
+  pdf.save('Safeshield_Agreements_Marshelene_Beukes.pdf');
 }
 </script>
 </body>
