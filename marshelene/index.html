@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safeshield Insurance -- Marshelene Beukes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Outfit',sans-serif;background:#0a1628;color:#C8D0D8;font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.screen{display:none}.screen.active{display:block}
+.page-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px 80px}
+
+/* WELCOME */
+.welcome{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:60px 24px;background:linear-gradient(180deg,#060e1a,#0a1628,#0d1f3c);position:relative;overflow:hidden}
+.welcome::before{content:'';position:absolute;top:50%;left:50%;width:600px;height:600px;background:radial-gradient(circle,rgba(255,163,0,0.08) 0%,transparent 70%);transform:translate(-50%,-50%);border-radius:50%;animation:welcomePulse 3s ease-in-out infinite}
+@keyframes welcomePulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.5}50%{transform:translate(-50%,-50%) scale(1.2);opacity:1}}
+.w-welcome-text{font-size:13px;color:#7A9CC6;letter-spacing:6px;text-transform:uppercase;font-weight:600;opacity:0;animation:wIn 0.6s ease forwards 0.5s;margin-bottom:16px}
+.w-name{font-family:'Playfair Display',serif;font-weight:900;font-size:42px;color:white;letter-spacing:3px;opacity:0;animation:wIn 0.6s ease forwards 0.9s;margin-bottom:8px}
+.w-role{font-size:15px;color:#FFA300;font-weight:600;letter-spacing:3px;text-transform:uppercase;opacity:0;animation:wIn 0.6s ease forwards 1.2s;margin-bottom:48px}
+.w-tagline{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;color:#5A7A9C;opacity:0;animation:wIn 0.6s ease forwards 1.5s;margin-bottom:48px;line-height:1.5}
+.w-enter{padding:16px 48px;background:#FFA300;color:#0a1628;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;letter-spacing:1px;opacity:0;animation:wIn 0.6s ease forwards 1.9s;transition:all 0.3s}
+.w-enter:hover{background:#FFB733;transform:translateY(-2px);box-shadow:0 6px 30px rgba(255,163,0,0.4)}
+.w-footer{position:absolute;bottom:32px;font-size:11px;color:#2A4A6C;opacity:0;animation:wIn 0.5s ease forwards 2.2s}
+@keyframes wIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* DOCS */
+.doc-box{max-width:720px;width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:40px 32px;margin-bottom:32px}
+.doc-box h3{font-family:'Playfair Display',serif;font-weight:900;font-size:20px;color:white;text-align:center;margin-bottom:20px;letter-spacing:1px}
+.doc-intro{font-size:14px;color:#8AA0B8;margin-bottom:20px;line-height:1.7}
+.doc-intro strong{color:white;font-weight:700}
+.doc-label{display:inline-block;background:rgba(255,163,0,0.12);border:1px solid rgba(255,163,0,0.3);color:#FFA300;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:4px 14px;border-radius:6px;margin-bottom:16px}
+.clause{margin-bottom:24px}
+.clause h4{font-family:'Playfair Display',serif;font-weight:700;font-size:16px;color:#FFA300;margin-bottom:6px}
+.clause p{font-size:13.5px;color:#A0B0C0;line-height:1.7;margin-bottom:6px}
+.clause ul{list-style:none;padding:0;margin:6px 0}
+.clause ul li{font-size:13.5px;color:#A0B0C0;padding:3px 0 3px 18px;position:relative;line-height:1.6}
+.clause ul li::before{content:"\2022";color:#FFA300;position:absolute;left:0;font-weight:700}
+.cdiv{width:100%;height:1px;background:rgba(255,163,0,0.15);margin:24px 0}
+.doc-sep{max-width:720px;width:100%;text-align:center;padding:32px 0}
+.doc-sep .gl{width:80px;height:3px;background:#FFA300;margin:0 auto}
+
+/* SIGN */
+.sign-box{max-width:720px;width:100%;background:linear-gradient(135deg,rgba(0,75,137,0.15),rgba(0,75,137,0.05));border:2px solid rgba(0,75,137,0.4);border-radius:16px;padding:32px;margin-bottom:24px}
+.sign-box h3{font-family:'Playfair Display',serif;font-weight:900;font-size:20px;color:white;margin-bottom:20px;text-align:center}
+.sign-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.sign-field{display:flex;flex-direction:column}
+.sign-field label{font-size:11px;color:#7A9CC6;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:6px}
+.sign-field input{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:12px 14px;color:white;font-family:'Outfit',sans-serif;font-size:15px;outline:none;transition:border-color 0.3s}
+.sign-field input:focus{border-color:#FFA300}
+.sign-field input::placeholder{color:#4A6A8C}
+.sign-date{font-size:13px;color:#7A9CC6;margin-bottom:16px}
+.sign-date span{color:white;font-weight:600}
+.check-row{display:flex;align-items:flex-start;gap:12px;margin:16px 0;cursor:pointer}
+.check-row input[type="checkbox"]{appearance:none;-webkit-appearance:none;width:22px;height:22px;min-width:22px;border:2px solid rgba(255,163,0,0.5);border-radius:5px;background:transparent;cursor:pointer;position:relative;margin-top:2px;transition:all 0.2s}
+.check-row input[type="checkbox"]:checked{background:#FFA300;border-color:#FFA300}
+.check-row input[type="checkbox"]:checked::after{content:"\2713";color:#0a1628;font-size:14px;font-weight:900;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.check-row label{font-size:13px;color:#B8C4D0;cursor:pointer;line-height:1.5}
+.btn-row{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.btn{padding:14px 28px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;border:none;transition:all 0.3s;letter-spacing:0.5px}
+.btn-sign{background:#FFA300;color:#0a1628;flex:1}
+.btn-sign:hover:not(:disabled){background:#FFB733;transform:translateY(-1px);box-shadow:0 4px 20px rgba(255,163,0,0.3)}
+.btn-sign:disabled{opacity:0.3;cursor:not-allowed;transform:none}
+.btn-dl{background:transparent;border:2px solid rgba(255,255,255,0.2);color:#7A9CC6;display:none}
+.btn-dl:hover{border-color:#FFA300;color:#FFA300}
+.btn-dl.show{display:inline-flex;align-items:center;gap:8px}
+
+/* PEN */
+.pen-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,22,40,0.95);z-index:9999;display:none;justify-content:center;align-items:center;flex-direction:column}
+.pen-overlay.show{display:flex}
+.pen-anim{margin-bottom:32px;position:relative;width:220px;height:100px}
+.pen-sig{font-family:'Dancing Script',cursive;font-size:36px;color:#FFA300;opacity:0;white-space:nowrap;overflow:hidden;border-right:2px solid #FFA300}
+.pen-sig.writing{opacity:1;animation:typeSign 1.5s steps(20) forwards,blinkCursor 0.6s step-end 3}
+@keyframes typeSign{from{width:0}to{width:100%}}
+@keyframes blinkCursor{50%{border-color:transparent}}
+.pen-done{font-family:'Playfair Display',serif;font-weight:900;font-size:20px;color:white;opacity:0;margin-top:16px}
+.pen-sub{font-size:14px;color:#7A9CC6;opacity:0;margin-top:8px}
+.pen-done.in,.pen-sub.in{opacity:1;transition:opacity 0.5s ease}
+
+/* CONFIRMATION */
+.signed-conf{display:none;text-align:center;padding:24px;margin-top:16px}
+.signed-conf.show{display:block}
+.signed-conf .chk{font-size:48px;color:#4ADE80;margin-bottom:12px}
+.signed-conf p{color:#4ADE80;font-weight:600;font-size:16px}
+.signed-conf .ts{color:#7A9CC6;font-size:12px;margin-top:4px}
+
+/* CONFETTI */
+.confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10000;overflow:hidden}
+.confetti-piece{position:absolute;top:-20px;opacity:0.9}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(100vh) rotate(720deg) scale(0.3);opacity:0}}
+
+.footer{text-align:center;padding:20px 24px 40px;font-size:11px;color:#3A5A7C}
+
+@media(max-width:600px){.sign-row{grid-template-columns:1fr}.doc-box{padding:28px 20px}.sign-box{padding:24px 20px}.btn-row{flex-direction:column}.btn{width:100%;text-align:center}.w-name{font-size:28px}}
+</style>
+</head>
+<body>
+
+<!-- PEN OVERLAY -->
+<div class="pen-overlay" id="pen-overlay">
+  <div class="pen-anim"><div class="pen-sig" id="pen-sig-text"></div></div>
+  <div class="pen-done" id="pen-done"></div>
+  <div class="pen-sub" id="pen-sub"></div>
+</div>
+
+<!-- ===================== WELCOME ===================== -->
+<div class="screen active" id="screen-welcome">
+  <div class="welcome">
+    <div class="w-welcome-text">Welcome to Safeshield Insurance</div>
+    <div class="w-name">MARSHELENE BEUKES</div>
+    <div class="w-role">Virtual Insurance Assistant</div>
+    <div class="w-tagline">We're excited to have you on the team.<br>Let's make it official.</div>
+    <button class="w-enter" onclick="enterDocs()">Review &amp; Sign Your Agreements</button>
+    <div class="w-footer">Safeshield Insurance LLC &bull; Confidential &bull; 2026</div>
+  </div>
+</div>
+
+<!-- ===================== AGREEMENTS ===================== -->
+<div class="screen" id="screen-docs">
+<div class="page-wrap">
+
+  <div style="text-align:center;margin-bottom:40px">
+    <div style="border:2px solid #FFA300;padding:6px 24px;color:#FFA300;font-size:10px;letter-spacing:5px;text-transform:uppercase;font-weight:600;display:inline-block;margin-bottom:16px">SAFESHIELD INSURANCE</div>
+    <h1 style="font-family:'Playfair Display',serif;font-weight:900;font-size:28px;color:white;margin-bottom:4px">Onboarding Documents</h1>
+    <p style="color:#7A9CC6;font-size:13px">Please review all agreements below carefully before signing.</p>
+  </div>
+
+  <!-- ===== DOCUMENT 1: NDA ===== -->
+  <div class="doc-box" id="doc-nda">
+    <div class="doc-label">Document 1 of 3</div>
+    <h3>CONFIDENTIALITY &amp; NON-DISCLOSURE AGREEMENT</h3>
+    <p class="doc-intro">This Confidentiality and Non-Disclosure Agreement (the "Agreement") is entered into by and between <strong>Safeshield Insurance LLC</strong>, 2777 Summer St, Stamford, CT, United States ("Safeshield"), and <strong>Marshelene Beukes</strong>, located in South Africa ("Recipient").</p>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>1. Purpose</h4><p>Safeshield intends to disclose certain confidential and proprietary information to Recipient in connection with Recipient's engagement as a Virtual Insurance Assistant. This Agreement governs the handling, protection, and permissible use of such information during and after the term of engagement.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>2. Definition of Confidential Information</h4><p>"Confidential Information" means any and all non-public information disclosed by Safeshield, including but not limited to:</p><ul><li>Client lists, contact information, policy details, renewal dates, and account data</li><li>Proprietary technology systems including CASEY, NowCerts configurations, workflows, and scripts</li><li>Business strategies, financial data, commission structures, pricing models, and operational methods</li><li>Carrier relationships, appointment details, and underwriting guidelines</li><li>Training materials, playbooks, internal documentation, and standard operating procedures</li><li>Marketing strategies, advertising spend, lead sources, and campaign data</li><li>Employee and contractor compensation, roles, and internal communications</li><li>Any information marked or reasonably understood to be confidential</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>3. Obligations of Recipient</h4><p>Recipient agrees to:</p><ul><li>Hold all Confidential Information in strict confidence</li><li>Not disclose, share, publish, post, or distribute any Confidential Information to any third party, including family members, friends, other employers, or online platforms</li><li>Not use any Confidential Information for any purpose other than performing duties for Safeshield</li><li>Not photograph, screenshot, copy, download to personal devices, email to personal accounts, or reproduce any Confidential Information by any means</li><li>Not store any Confidential Information on any device, account, or platform other than those provided and authorized by Safeshield</li><li>Immediately notify Safeshield of any unauthorized disclosure, access, or use of Confidential Information</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>4. Non-Solicitation and Non-Circumvention</h4><p>During the term of engagement and for twenty-four (24) months following its conclusion, Recipient shall not directly or indirectly:</p><ul><li>Solicit, contact, or service any Safeshield client, lead, prospect, or referral partner for insurance or related services</li><li>Solicit, recruit, or hire any Safeshield employee, contractor, or team member</li><li>Circumvent Safeshield to conduct or facilitate insurance business with any of the Company's clients, carriers, or business relationships</li><li>Use any Confidential Information to compete with Safeshield or to benefit any competing business</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>5. Intellectual Property and Work Product</h4><p>All work product created by Recipient in connection with the engagement, including notes, CRM entries, client communications, templates, scripts, workflows, spreadsheets, and data compilations, shall be deemed work made for hire and the exclusive property of Safeshield Insurance LLC.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>6. Return of Materials</h4><p>Upon termination for any reason, Recipient shall immediately return or surrender the company-provided laptop and all Safeshield property, delete all Confidential Information from any device or platform, and confirm in writing that no data has been retained.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>7. Liquidated Damages</h4><p>In the event of any material breach of Sections 3, 4, or 5 of this Agreement, Recipient shall pay to Safeshield liquidated damages in the amount of <strong>$12,000 USD</strong> (equivalent to six months of Recipient's compensation), in addition to any other remedies available. The Parties agree this represents a genuine pre-estimate of loss and is not intended as a penalty.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>8. Remedies and Injunctive Relief</h4><p>Recipient acknowledges that breach may cause irreparable harm. Safeshield shall be entitled to seek injunctive relief without proving actual damages or posting a bond. <strong>Recipient consents to the granting of injunctive relief in any court of competent jurisdiction, including courts in the State of Connecticut and courts in the Republic of South Africa.</strong></p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>9. Acknowledgment of Reasonableness</h4><p>Recipient acknowledges and agrees that:</p><ul><li>Recipient will have access to Safeshield's most sensitive confidential information, client relationships, and proprietary systems</li><li>The restrictions in this Agreement are reasonable and necessary to protect Safeshield's legitimate business interests</li><li>The restrictions do not impose an undue hardship and do not prevent Recipient from earning a livelihood, provided Recipient does not use Safeshield's Confidential Information or solicit Safeshield's clients</li><li>Recipient has had the opportunity to review this Agreement, seek independent legal counsel, and negotiate its terms before signing</li><li>Recipient is entering into this Agreement voluntarily and with full understanding of its implications</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>10. Governing Law and Jurisdiction</h4><p>This Agreement shall be governed by the laws of the <strong>State of Connecticut, United States</strong>. To the extent enforcement is sought in South Africa, the provisions shall be interpreted under South African law as required. Safeshield may bring action in either the courts of Connecticut (or binding arbitration in Stamford, CT) or the courts of the Republic of South Africa, at its sole discretion. Recipient consents to both jurisdictions. The prevailing Party shall recover reasonable legal fees and costs.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>11. Term and Survival</h4><p>Confidentiality obligations survive for five (5) years from disclosure or five (5) years following termination, whichever is longer. Non-solicitation obligations survive for twenty-four (24) months following termination.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>12. Severability</h4><p>If any provision is found invalid in any jurisdiction, the remaining provisions remain in full force. Invalid provisions shall be modified to the minimum extent necessary. Invalidity in one jurisdiction does not affect validity in another.</p></div>
+  </div>
+
+  <!-- SEPARATOR -->
+  <div class="doc-sep"><div class="gl"></div></div>
+
+  <!-- ===== DOCUMENT 2: INDEPENDENT CONTRACTOR AGREEMENT ===== -->
+  <div class="doc-box" id="doc-ica">
+    <div class="doc-label">Document 2 of 3</div>
+    <h3>INDEPENDENT CONTRACTOR AGREEMENT</h3>
+    <p class="doc-intro">This Independent Contractor Agreement is entered into by and between <strong>Safeshield Insurance LLC</strong>, 2777 Summer St, Stamford, CT ("Safeshield"), and <strong>Marshelene Beukes</strong>, located in South Africa ("Contractor").</p>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>1. Scope of Services</h4><p>Contractor shall provide virtual insurance assistant services to Safeshield, including client communication, policy servicing, renewal management, data entry, administrative support, and other duties as assigned. Safeshield may modify the scope at its discretion.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>2. Training &amp; Performance</h4><p>Contractor agrees to participate in all required training, including onboarding (May 1-29, 2026), and ongoing performance reviews. Continued eligibility for compensation is contingent upon satisfactory participation, effort, and compliance with Company expectations.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>3. Compensation</h4><p>Contractor shall receive $2,000 USD per month, paid biweekly ($1,000 per pay period) via Wise to Contractor's South African bank account. Compensation is reviewed annually at year-end. Contractor is solely responsible for all tax obligations in the Republic of South Africa.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>4. Work Hours &amp; Availability</h4><p>Contractor shall be available Monday through Friday, 9:00 AM to 5:00 PM US Eastern Time. Contractor must maintain a reliable high-speed internet connection and a quiet, private workspace suitable for client-facing calls.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>5. Equipment</h4><p>Safeshield will provide a company-managed laptop that remains the sole property of Safeshield at all times. No personal software, applications, accounts, or files may be installed or stored on the device. Safeshield retains the right to monitor, manage, update, and remotely access or wipe the device at any time. The device must be returned or made available for remote wipe within 48 hours upon termination.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>6. Independent Contractor Status</h4><p>Contractor is an independent contractor and not an employee of Safeshield. Contractor is not entitled to benefits, tax withholding, or employment protections. Nothing in this Agreement creates a partnership, joint venture, or employment relationship. Contractor is responsible for completing IRS Form W-8BEN prior to the start date.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>7. Termination</h4><p>Either party may terminate with 14 calendar days written notice via email. Safeshield may terminate immediately for gross misconduct, breach of confidentiality, unauthorized data access, failure to return equipment, abandonment of duties (3+ consecutive days without communication), or misrepresentation of hours worked. Upon termination, all system access is revoked immediately and final payment is processed for work completed through termination date.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>8. Ownership of Work Product</h4><p>All work product, client records, communications, and data created during the engagement are the exclusive property of Safeshield.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>9. Confidentiality</h4><p>Contractor shall comply with the Confidentiality and Non-Disclosure Agreement executed concurrently with this Agreement. All confidentiality obligations survive termination.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>10. Indemnification</h4><p>Contractor shall indemnify and hold harmless Safeshield from any claims, damages, losses, or expenses arising from Contractor's acts, omissions, or breach of this Agreement.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>11. Governing Law</h4><p>Governed by the laws of the State of Connecticut. Disputes resolved by binding arbitration in Stamford, CT, or in the courts of the Republic of South Africa, at Safeshield's discretion.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>12. Entire Agreement</h4><p>This Agreement, together with the Offer Letter, NDA, and Acceptable Use Policy, constitutes the entire agreement. Amendments must be in writing and signed by both Parties.</p></div>
+  </div>
+
+  <!-- SEPARATOR -->
+  <div class="doc-sep"><div class="gl"></div></div>
+
+  <!-- ===== DOCUMENT 3: ACCEPTABLE USE POLICY ===== -->
+  <div class="doc-box" id="doc-aup">
+    <div class="doc-label">Document 3 of 3</div>
+    <h3>ACCEPTABLE USE POLICY</h3>
+    <p class="doc-intro">This Acceptable Use Policy governs the use of the company-provided laptop and all Safeshield systems, platforms, and accounts by <strong>Marshelene Beukes</strong> ("User").</p>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>1. Company-Provided Device</h4><p>The laptop provided by Safeshield Insurance LLC is company property and is provided solely for the purpose of performing Safeshield work. User agrees to:</p><ul><li>Use the device exclusively for Safeshield business and approved purposes</li><li>Not install any personal software, applications, browser extensions, or VPN services without written approval</li><li>Not store any personal files, photos, music, or non-work-related content on the device</li><li>Not allow any other person to use the device for any reason</li><li>Keep the device physically secure and not leave it unattended in public or shared spaces</li><li>Report any damage, loss, theft, or malfunction to management immediately</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>2. System Access &amp; Credentials</h4><p>User agrees to:</p><ul><li>Use strong, unique passwords for all Safeshield accounts and change them when directed</li><li>Never share login credentials with any other person, including family members or colleagues</li><li>Enable two-factor authentication on all accounts where available</li><li>Log out of all systems at the end of each workday</li><li>Report any suspected unauthorized access or security breach immediately</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>3. Data Handling</h4><p>User agrees to:</p><ul><li>Access client data and company information only through authorized Safeshield systems (NowCerts, CASEY, Google Workspace)</li><li>Never transfer, copy, download, email, or export any client data or company information to personal devices, personal email accounts, USB drives, personal cloud storage, or any unauthorized platform</li><li>Never take screenshots or photographs of client data, internal dashboards, or proprietary systems</li><li>Process all client communications through official Safeshield channels only</li><li>Follow all data handling procedures as outlined in training</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>4. Internet &amp; Communication</h4><p>User agrees to:</p><ul><li>Not use the company device for personal social media, streaming, gaming, or non-work browsing during work hours</li><li>Not access any illegal, inappropriate, or harmful websites or content on the device at any time</li><li>Not use the device to communicate with clients or third parties through any channel other than official Safeshield platforms</li><li>Not post any Safeshield-related content, client information, or internal details on any social media platform or public forum</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>5. Monitoring &amp; Compliance</h4><p>User acknowledges and agrees that:</p><ul><li>Safeshield reserves the right to monitor, audit, and log all activity on the company-provided device and Safeshield systems at any time without prior notice</li><li>Safeshield may remotely access, update, or wipe the device at any time</li><li>User has no expectation of privacy regarding any activity on the company device or Safeshield systems</li><li>Safeshield may conduct periodic audits of system access, data handling, and device usage</li></ul></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>6. Return of Equipment</h4><p>Upon termination of the engagement for any reason, User must return the company-provided device or make it available for remote wipe within 48 hours. Failure to comply will result in forfeiture of any outstanding compensation and may result in further legal action.</p></div>
+
+    <div class="cdiv"></div>
+    <div class="clause"><h4>7. Violations</h4><p>Any violation of this Acceptable Use Policy may result in immediate termination of the engagement, revocation of all system access, and pursuit of legal remedies including those outlined in the Confidentiality and Non-Disclosure Agreement.</p></div>
+  </div>
+
+  <!-- ===== SIGNATURE BLOCK ===== -->
+  <div class="sign-box">
+    <h3>Digital Signature</h3>
+    <p style="font-size:13px;color:#7A9CC6;text-align:center;margin-bottom:20px">By signing below, you agree to all terms of the Confidentiality &amp; Non-Disclosure Agreement, Independent Contractor Agreement, and Acceptable Use Policy above.</p>
+
+    <div style="margin-bottom:24px">
+      <p style="font-size:11px;color:#7A9CC6;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:12px">SAFESHIELD INSURANCE LLC</p>
+      <div style="border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:16px;margin-bottom:8px">
+        <p style="font-family:'Dancing Script',cursive;font-size:32px;color:white;font-weight:700;margin-bottom:2px;line-height:1.2">Austin Glazer</p>
+      </div>
+      <p style="font-size:14px;color:white;font-weight:600;margin-bottom:2px">Austin Glazer</p>
+      <p style="font-size:12px;color:#7A9CC6;margin-bottom:0">President, Safeshield Insurance LLC</p>
+      <p style="font-size:11px;color:#4A6A8C;margin-bottom:0">Date: <span class="auto-date"></span></p>
+    </div>
+
+    <div class="cdiv" style="margin:16px 0"></div>
+    <p style="font-size:13px;color:#7A9CC6;margin-bottom:12px;font-weight:600">CONTRACTOR / RECIPIENT</p>
+
+    <div class="sign-row">
+      <div class="sign-field"><label>Full Legal Name</label><input type="text" id="sig-name" placeholder="Type your full legal name"></div>
+      <div class="sign-field"><label>Email Address</label><input type="email" id="sig-email" placeholder="Your email address"></div>
+    </div>
+
+    <div class="sign-date">Date: <span class="auto-date"></span></div>
+
+    <div class="check-row" onclick="document.getElementById('chk1').click()">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and agree to all terms of the <strong>Confidentiality &amp; Non-Disclosure Agreement</strong>, including the liquidated damages provision, non-solicitation obligations, and acknowledgment of reasonableness.</label>
+    </div>
+
+    <div class="check-row" onclick="document.getElementById('chk2').click()">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I have read and agree to all terms of the <strong>Independent Contractor Agreement</strong>, including the compensation, termination, and equipment provisions.</label>
+    </div>
+
+    <div class="check-row" onclick="document.getElementById('chk3').click()">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I have read and agree to all terms of the <strong>Acceptable Use Policy</strong>, including the monitoring, data handling, and device return requirements.</label>
+    </div>
+
+    <div class="check-row" onclick="document.getElementById('chk4').click()">
+      <input type="checkbox" id="chk4">
+      <label for="chk4">I consent to signing these agreements electronically and acknowledge that my electronic signature has the same legal effect as a handwritten signature.</label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-sign" id="sign-btn" disabled onclick="signAll()">Sign All Agreements</button>
+      <button class="btn btn-dl" id="dl-btn" onclick="downloadAll()">&#8681; Download Signed Agreements</button>
+    </div>
+
+    <div class="signed-conf" id="signed-conf">
+      <div class="chk">&#10003;</div>
+      <p>All Agreements Signed Successfully</p>
+      <p class="ts" id="signed-ts"></p>
+      <p style="color:#D4A030;font-size:12px;margin-top:8px;font-style:italic">Please download a copy of your signed agreements for your records.</p>
+      <p style="color:#FFA300;font-size:14px;margin-top:16px;font-weight:600">Welcome to Safeshield, Marshelene.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Safeshield Insurance LLC &bull; Confidential &bull; 2026</p>
+    <p>gosafeshield.com &bull; (203) 204-2555 &bull; austin@gosafeshield.com</p>
+  </div>
+
+</div>
+</div>
+
+<!-- NETLIFY FORM -->
+<form name="mb-agreements" netlify netlify-honeypot="bot-field" hidden>
+  <input name="bot-field"><input name="signer-name"><input name="signer-email"><input name="date-signed"><input name="ip-address"><input name="user-agent"><input name="screen-resolution"><input name="timezone"><input name="document-version"><input name="documents-signed"><input name="e-sign-consent">
+</form>
+
+<script>
+const now=new Date();
+const dateStr=now.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+document.querySelectorAll('.auto-date').forEach(el=>el.textContent=dateStr);
+let userIP='unavailable';
+fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>{userIP=d.ip}).catch(()=>{});
+function getTS(){return now.toLocaleString('en-US',{month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});}
+const DOC_VERSION='MB-ONBOARD-v1-2026-04';
+function getFP(){return{screen:window.screen.width+'x'+window.screen.height,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,language:navigator.language,platform:navigator.platform};}
+
+// Welcome transition
+function enterDocs(){
+  document.getElementById('screen-welcome').style.opacity='0';
+  document.getElementById('screen-welcome').style.transition='opacity 0.6s ease';
+  setTimeout(function(){
+    document.getElementById('screen-welcome').classList.remove('active');
+    document.getElementById('screen-docs').classList.add('active');
+    window.scrollTo(0,0);
+  },600);
+}
+
+// Scroll enforcement
+let scrolledAll=false;
+function checkScroll(){
+  const aup=document.getElementById('doc-aup');
+  if(aup){
+    const rect=aup.getBoundingClientRect();
+    if(rect.bottom<=window.innerHeight+150){scrolledAll=true;chkReady();}
+  }
+}
+window.addEventListener('scroll',checkScroll);
+
+// Pen animation
+function showPen(sigName,doneText,subText,cb){
+  const o=document.getElementById('pen-overlay'),sig=document.getElementById('pen-sig-text'),done=document.getElementById('pen-done'),sub=document.getElementById('pen-sub');
+  sig.textContent=sigName;sig.className='pen-sig';done.textContent=doneText;done.className='pen-done';sub.textContent=subText;sub.className='pen-sub';
+  o.classList.add('show');
+  setTimeout(()=>{sig.classList.add('writing');},100);
+  setTimeout(()=>{done.classList.add('in');},1800);
+  setTimeout(()=>{sub.classList.add('in');},2200);
+  setTimeout(()=>{o.classList.remove('show');if(cb)cb();},3500);
+}
+
+// Confetti
+function fireConfetti(){
+  const c=document.createElement('div');c.className='confetti-container';document.body.appendChild(c);
+  const colors=['#FFA300','#004B89','#4ADE80','#FFD700','#FF6B6B','#7A9CC6','#FFFFFF','#FF8C00'];
+  for(let i=0;i<150;i++){
+    const p=document.createElement('div');p.className='confetti-piece';
+    const color=colors[Math.floor(Math.random()*colors.length)];
+    const size=Math.random()*8+6;const isRect=Math.random()>0.5;
+    p.style.left=Math.random()*100+'%';p.style.width=size+'px';p.style.height=(isRect?size*2.5:size)+'px';
+    p.style.background=color;p.style.borderRadius=(isRect?'2px':'50%');
+    p.style.animation='confettiFall '+(Math.random()*2+2)+'s ease-out '+(Math.random()*1.5)+'s forwards';
+    c.appendChild(p);
+  }
+  setTimeout(()=>c.remove(),6000);
+}
+
+// Form validation
+const sigN=document.getElementById('sig-name'),sigE=document.getElementById('sig-email');
+const chk1=document.getElementById('chk1'),chk2=document.getElementById('chk2'),chk3=document.getElementById('chk3'),chk4=document.getElementById('chk4');
+const signBtn=document.getElementById('sign-btn');
+
+function chkReady(){
+  signBtn.disabled=!(sigN.value.trim().length>2&&sigE.value.trim().includes('@')&&chk1.checked&&chk2.checked&&chk3.checked&&chk4.checked&&scrolledAll);
+}
+sigN.addEventListener('input',chkReady);sigE.addEventListener('input',chkReady);
+chk1.addEventListener('change',chkReady);chk2.addEventListener('change',chkReady);
+chk3.addEventListener('change',chkReady);chk4.addEventListener('change',chkReady);
+
+// Sign
+async function signAll(){
+  const ts=getTS(),name=sigN.value.trim(),email=sigE.value.trim(),fp=getFP();
+  const fd=new URLSearchParams();
+  fd.append('form-name','mb-agreements');
+  fd.append('signer-name',name);
+  fd.append('signer-email',email);
+  fd.append('date-signed',ts);
+  fd.append('ip-address',userIP);
+  fd.append('user-agent',navigator.userAgent);
+  fd.append('screen-resolution',fp.screen);
+  fd.append('timezone',fp.timezone);
+  fd.append('document-version',DOC_VERSION);
+  fd.append('documents-signed','NDA + Independent Contractor Agreement + Acceptable Use Policy');
+  fd.append('e-sign-consent','Yes - consented to electronic signature');
+  try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:fd.toString()});}catch(e){}
+
+  showPen(name,'All Agreements Signed','Welcome to Safeshield',function(){
+    fireConfetti();
+    document.getElementById('signed-conf').classList.add('show');
+    document.getElementById('signed-ts').textContent='Signed: '+ts+' by '+name;
+    sigN.disabled=true;sigE.disabled=true;
+    chk1.disabled=true;chk2.disabled=true;chk3.disabled=true;chk4.disabled=true;
+    signBtn.style.display='none';
+    document.getElementById('dl-btn').classList.add('show');
+  });
+}
+
+// Download
+function downloadAll(){
+  const ts=getTS(),name=sigN.value.trim(),email=sigE.value.trim(),fp=getFP();
+  let t='';
+  t+='SAFESHIELD INSURANCE LLC - ONBOARDING DOCUMENTS\n';
+  t+='Signed by: '+name+'\n';
+  t+='Date: '+ts+'\n';
+  t+='='.repeat(60)+'\n\n';
+
+  t+='DOCUMENT 1: CONFIDENTIALITY & NON-DISCLOSURE AGREEMENT\n';
+  t+='-'.repeat(60)+'\n\n';
+  t+='Between Safeshield Insurance LLC and '+name+'\n\n';
+  t+='1. PURPOSE: Governs handling of confidential information during and after engagement.\n\n';
+  t+='2. CONFIDENTIAL INFORMATION: Client data, proprietary systems (CASEY, NowCerts), business strategies, carrier relationships, training materials, marketing data, employee information.\n\n';
+  t+='3. OBLIGATIONS: Strict confidence, no disclosure, no personal use, no copying/screenshots, no storage on unauthorized devices.\n\n';
+  t+='4. NON-SOLICITATION: 24 months post-engagement. No soliciting clients, employees, or circumventing company relationships.\n\n';
+  t+='5. INTELLECTUAL PROPERTY: All work product is exclusive Safeshield property.\n\n';
+  t+='6. RETURN OF MATERIALS: Return all property and confirm no data retained.\n\n';
+  t+='7. LIQUIDATED DAMAGES: $12,000 USD for material breach of Sections 3, 4, or 5.\n\n';
+  t+='8. REMEDIES: Injunctive relief in CT and/or South Africa without proving actual damages.\n\n';
+  t+='9. ACKNOWLEDGMENT OF REASONABLENESS: Signer acknowledges restrictions are reasonable, necessary, not unduly burdensome, entered voluntarily with opportunity for legal counsel.\n\n';
+  t+='10. GOVERNING LAW: State of Connecticut and/or Republic of South Africa. Dual jurisdiction. Prevailing party recovers legal fees.\n\n';
+  t+='11. SURVIVAL: Confidentiality 5 years. Non-solicitation 24 months.\n\n';
+  t+='12. SEVERABILITY: Invalid provisions modified to minimum extent; invalidity in one jurisdiction does not affect another.\n\n';
+
+  t+='='.repeat(60)+'\n\n';
+  t+='DOCUMENT 2: INDEPENDENT CONTRACTOR AGREEMENT\n';
+  t+='-'.repeat(60)+'\n\n';
+  t+='1. SCOPE: Virtual insurance assistant services.\n';
+  t+='2. TRAINING: Structured onboarding May 1-29, 2026.\n';
+  t+='3. COMPENSATION: $2,000 USD/month, biweekly via Wise.\n';
+  t+='4. HOURS: M-F 9AM-5PM ET.\n';
+  t+='5. EQUIPMENT: Company laptop, Safeshield property, subject to monitoring/remote wipe.\n';
+  t+='6. IC STATUS: Not an employee. Responsible for own taxes (W-8BEN).\n';
+  t+='7. TERMINATION: 14 days notice. Immediate for cause.\n';
+  t+='8. WORK PRODUCT: Exclusive Safeshield property.\n';
+  t+='9. CONFIDENTIALITY: Per NDA executed concurrently.\n';
+  t+='10. INDEMNIFICATION: Contractor indemnifies Safeshield.\n';
+  t+='11. GOVERNING LAW: CT and/or South Africa.\n';
+  t+='12. ENTIRE AGREEMENT: With Offer Letter, NDA, and AUP.\n\n';
+
+  t+='='.repeat(60)+'\n\n';
+  t+='DOCUMENT 3: ACCEPTABLE USE POLICY\n';
+  t+='-'.repeat(60)+'\n\n';
+  t+='1. DEVICE: Safeshield property only. No personal software/files. No sharing.\n';
+  t+='2. CREDENTIALS: Strong passwords, 2FA, no sharing, log out daily.\n';
+  t+='3. DATA: Authorized systems only. No transfers to personal devices/accounts.\n';
+  t+='4. INTERNET: No personal use during work. No social media posting of company info.\n';
+  t+='5. MONITORING: Safeshield may monitor all activity. No expectation of privacy.\n';
+  t+='6. RETURN: Device returned or remote wiped within 48 hours of termination.\n';
+  t+='7. VIOLATIONS: Immediate termination and legal remedies.\n\n';
+
+  t+='='.repeat(60)+'\n\n';
+  t+='DIGITAL AUDIT TRAIL\n';
+  t+='='.repeat(60)+'\n';
+  t+='Documents Signed: NDA + Independent Contractor Agreement + Acceptable Use Policy\n';
+  t+='Document Version: '+DOC_VERSION+'\n';
+  t+='Signed via: careers.gosafeshield.com\n';
+  t+='E-Sign Consent: Yes\n\n';
+  t+='Signer: '+name+'\n';
+  t+='Email: '+email+'\n';
+  t+='Timestamp: '+ts+'\n';
+  t+='IP Address: '+userIP+'\n';
+  t+='User Agent: '+navigator.userAgent+'\n';
+  t+='Screen: '+fp.screen+'\n';
+  t+='Timezone: '+fp.timezone+'\n';
+  t+='Platform: '+fp.platform+'\n\n';
+  t+='Safeshield Insurance LLC\n';
+  t+='Signature: Austin Glazer [digitally pre-signed]\n';
+  t+='Title: President\n';
+  t+='Date: '+dateStr+'\n\n';
+  t+='Contractor/Recipient\n';
+  t+='Signature: '+name+' [digitally signed]\n';
+  t+='Date: '+ts+'\n';
+  t+='Signer scrolled through all documents: Yes\n';
+
+  const blob=new Blob([t],{type:'text/plain'}),u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download='Safeshield_Agreements_Marshelene_Beukes.txt';a.click();URL.revokeObjectURL(u);
+}
+</script>
+</body>
+</html>
