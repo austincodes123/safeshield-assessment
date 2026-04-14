@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Safeshield Insurance -- Tallis Santos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -452,70 +453,180 @@ async function signICA(){
 }
 
 // Downloads
-function dlFile(text,fn){const b=new Blob([text],{type:'text/plain'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=fn;a.click();URL.revokeObjectURL(u);}
+// PDF helpers
+function pdfSetup(){
+  const{jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:'pt',format:'letter'});
+  const W=612,M=50,CW=W-2*M;
+  let y=50;
+  const navy=[0,75,137],gold=[255,163,0],black=[0,0,0],gray=[100,100,100],dgray=[60,60,60];
 
-function buildAudit(name,addr,label,version){
-  const ts=getTS(),fp=getFingerprint();
-  let a='\n\n'+'='.repeat(50)+'\nDIGITAL AUDIT TRAIL\n'+'='.repeat(50)+'\n';
-  a+='Document: '+label+'\n';
-  a+='Document Version: '+version+'\n';
-  a+='Signed via: hiring.gosafeshield.com\n';
-  a+='E-Sign Consent: Yes - signer consented to electronic signature\n\n';
-  a+='Signer: '+name+'\n';
-  a+='Address: '+addr+'\n';
-  a+='Timestamp: '+ts+'\n';
-  a+='IP Address: '+userIP+'\n';
-  a+='User Agent: '+navigator.userAgent+'\n';
-  a+='Screen Resolution: '+fp.screen+'\n';
-  a+='Timezone: '+fp.timezone+'\n';
-  a+='Language: '+fp.language+'\n';
-  a+='Platform: '+fp.platform+'\n\n';
-  a+='Safeshield Insurance LLC\n';
-  a+='Signature: Austin Glazer [digitally pre-signed]\n';
-  a+='Title: President, Safeshield Insurance LLC\n';
-  a+='Date: '+dateStr+'\n\n';
-  a+='Recipient/Contractor\n';
-  a+='Signature: '+name+' [digitally signed]\n';
-  a+='Date: '+ts+'\n';
-  a+='Signer scrolled to bottom of agreement before signing: Yes\n';
-  return a;
+  function addPage(){pdf.addPage();y=50;pHeader();}
+  function checkY(n){if(y+n>730)addPage();}
+  function pHeader(){
+    pdf.setFillColor(...navy);pdf.rect(0,0,W,4,'F');
+    pdf.setFillColor(...gold);pdf.rect(0,4,W,2,'F');
+    pdf.setFont('helvetica','bold');pdf.setFontSize(11);pdf.setTextColor(...navy);
+    pdf.text('SAFESHIELD INSURANCE',W/2,30,{align:'center'});
+    pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(...gray);
+    pdf.text('We Work For You. Not The Insurance Company.',W/2,40,{align:'center'});
+    y=60;
+  }
+  function pFooter(){
+    pdf.setDrawColor(200,200,200);pdf.setLineWidth(0.5);pdf.line(M,740,W-M,740);
+    pdf.setFont('helvetica','normal');pdf.setFontSize(7);pdf.setTextColor(...gray);
+    pdf.text('Safeshield Insurance LLC  |  2777 Summer St, Stamford, CT  |  (203) 204-2555  |  gosafeshield.com  |  Confidential',W/2,752,{align:'center'});
+  }
+  function goldLine(){pdf.setDrawColor(...gold);pdf.setLineWidth(1.5);pdf.line(M,y,W-M,y);y+=12;}
+  function grayLine(){pdf.setDrawColor(200,200,200);pdf.setLineWidth(0.5);pdf.line(M,y,W-M,y);y+=10;}
+  function docTitle(t){checkY(30);pdf.setFont('helvetica','bold');pdf.setFontSize(14);pdf.setTextColor(...navy);pdf.text(t,W/2,y,{align:'center'});y+=20;}
+  function secHead(t){checkY(24);pdf.setFont('helvetica','bold');pdf.setFontSize(10.5);pdf.setTextColor(...navy);pdf.text(t,M,y);y+=14;}
+  function body(t){checkY(14);pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(...dgray);const lines=pdf.splitTextToSize(t,CW);for(const l of lines){checkY(12);pdf.text(l,M,y);y+=11;}y+=4;}
+  function bullet(t){checkY(14);pdf.setFont('helvetica','normal');pdf.setFontSize(9);pdf.setTextColor(...gold);pdf.text('\u2022',M+4,y);pdf.setTextColor(...dgray);const lines=pdf.splitTextToSize(t,CW-16);for(let i=0;i<lines.length;i++){checkY(12);pdf.text(lines[i],M+16,y);y+=11;}y+=2;}
+
+  function signatures(name,addr,label,version){
+    addPage();pHeader();goldLine();
+    docTitle('SIGNATURES & DIGITAL AUDIT TRAIL');y+=8;
+    pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...navy);
+    pdf.text('SAFESHIELD INSURANCE LLC',M,y);y+=20;
+    pdf.setFont('helvetica','italic');pdf.setFontSize(22);pdf.setTextColor(...dgray);
+    pdf.text('Austin Glazer',M,y);y+=6;
+    pdf.setDrawColor(...black);pdf.setLineWidth(0.5);pdf.line(M,y,M+200,y);y+=14;
+    pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...black);
+    pdf.text('Austin Glazer',M,y);y+=12;
+    pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(...gray);
+    pdf.text('President, Safeshield Insurance LLC',M,y);y+=10;
+    pdf.text('Date: '+dateStr,M,y);y+=10;
+    pdf.text('Status: Digitally pre-signed',M,y);y+=24;
+    grayLine();
+    pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...navy);
+    pdf.text('CONTRACTOR / RECIPIENT',M,y);y+=20;
+    pdf.setFont('helvetica','italic');pdf.setFontSize(22);pdf.setTextColor(...dgray);
+    pdf.text(name,M,y);y+=6;
+    pdf.setDrawColor(...black);pdf.line(M,y,M+200,y);y+=14;
+    pdf.setFont('helvetica','bold');pdf.setFontSize(9);pdf.setTextColor(...black);
+    pdf.text(name,M,y);y+=12;
+    pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(...gray);
+    pdf.text('Address: '+addr,M,y);y+=10;
+    const ts=getTS();
+    pdf.text('Date Signed: '+ts,M,y);y+=10;
+    pdf.text('Status: Digitally signed via careers.gosafeshield.com',M,y);y+=24;
+    goldLine();y+=4;
+    pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(...navy);
+    pdf.text('DIGITAL AUDIT TRAIL',M,y);y+=16;
+    const fp=getFingerprint();
+    pdf.setFont('helvetica','normal');pdf.setFontSize(8);pdf.setTextColor(...dgray);
+    const al=['Document: '+label,'Document Version: '+version,'Signed via: careers.gosafeshield.com/tallis','E-Sign Consent: Yes','','Signer: '+name,'Address: '+addr,'Timestamp: '+ts,'IP Address: '+userIP,'User Agent: '+navigator.userAgent.substring(0,90),'Screen: '+fp.screen,'Timezone: '+fp.timezone,'Platform: '+fp.platform,'','Signer scrolled through document: Yes','E-sign consent acknowledged: Yes'];
+    for(const l of al){if(l===''){y+=4;continue;}const sp=pdf.splitTextToSize(l,CW);for(const s of sp){pdf.text(s,M,y);y+=10;}}
+    pFooter();
+  }
+
+  pHeader();
+  return{pdf,addPage,checkY,goldLine,grayLine,docTitle,secHead,body,bullet,pHeader,pFooter,signatures,y:()=>y};
 }
 
 function downloadNDA(){
-  let t='CONFIDENTIALITY & NON-DISCLOSURE AGREEMENT\n'+'='.repeat(50)+'\n\nState of Connecticut | '+dateStr+'\nDocument Version: '+NDA_VERSION+'\n\n';
-  t+='Between Safeshield Insurance LLC and '+ndaN.value.trim()+'\n\n';
-  t+='1. PURPOSE: Safeshield intends to disclose confidential information for evaluating a potential business relationship.\n\n';
-  t+='2. CONFIDENTIAL INFORMATION: Includes compensation structures, business strategies, client data, proprietary technology, training materials, marketing strategies, and employee information.\n\n';
-  t+='3. OBLIGATIONS: Recipient shall hold information in strict confidence, not disclose to third parties, not use for purposes outside the business relationship, and not copy or reproduce.\n\n';
-  t+='4. NON-SOLICITATION: For 24 months post-relationship, Recipient shall not solicit Safeshield clients, employees, contractors, or circumvent Company relationships.\n\n';
-  t+='5. RETURN OF MATERIALS: Upon request or termination, all Confidential Information must be returned or destroyed.\n\n';
-  t+='6. REMEDIES: Breach may cause irreparable harm. Safeshield entitled to injunctive relief.\n\n';
-  t+='7. TERM: Confidentiality obligations survive 5 years from disclosure.\n\n';
-  t+='8. GOVERNING LAW: State of Connecticut. Binding arbitration.\n';
-  t+=buildAudit(ndaN.value.trim(),ndaA.value.trim(),'Confidentiality & Non-Disclosure Agreement',NDA_VERSION);
-  dlFile(t,'Safeshield_NDA_Tallis_Santos.txt');
+  const name=ndaN.value.trim(),addr=ndaA.value.trim();
+  const p=pdfSetup();
+  p.goldLine();
+  p.docTitle('CONFIDENTIALITY & NON-DISCLOSURE AGREEMENT');
+  p.body('Between Safeshield Insurance LLC and '+name+' | State of Connecticut | '+dateStr);
+  p.grayLine();
+
+  p.secHead('1. Purpose');
+  p.body('Safeshield intends to disclose certain confidential and proprietary information to Recipient for the purpose of evaluating a potential business relationship, including compensation structures, business strategies, operational methods, technology systems, and client-related information.');
+
+  p.secHead('2. Confidential Information');
+  p.body('Includes but is not limited to:');
+  p.bullet('Compensation structures, commission splits, bonus programs, and incentive plans');
+  p.bullet('Business strategies, financial data, pricing models, and operational methods');
+  p.bullet('Client lists, lead sources, referral relationships, and account data');
+  p.bullet('Proprietary technology, software systems, workflows, scripts, and processes');
+  p.bullet('Training materials, playbooks, and internal documentation');
+  p.bullet('Marketing strategies, advertising spend, and campaign data');
+  p.bullet('Employee and contractor information');
+
+  p.secHead('3. Obligations of Recipient');
+  p.bullet('Hold all Confidential Information in strict confidence');
+  p.bullet('Not disclose, share, publish, or distribute to any third party');
+  p.bullet('Not use for any purpose other than evaluating a business relationship with Safeshield');
+  p.bullet('Not photograph, screenshot, copy, or reproduce by any means');
+  p.bullet('Take all reasonable measures to protect confidentiality');
+
+  p.secHead('4. Non-Solicitation');
+  p.body('For 24 months post-relationship, Recipient shall not solicit Safeshield clients, employees, contractors, or circumvent Company relationships.');
+
+  p.secHead('5. Return of Materials');
+  p.body('Upon request or termination, all Confidential Information must be returned or destroyed.');
+
+  p.secHead('6. Remedies');
+  p.body('Breach may cause irreparable harm. Safeshield entitled to injunctive relief.');
+
+  p.secHead('7. Term');
+  p.body('Confidentiality obligations survive 5 years from disclosure.');
+
+  p.secHead('8. Governing Law');
+  p.body('State of Connecticut. Binding arbitration in Stamford, CT.');
+
+  p.signatures(name,addr,'Confidentiality & Non-Disclosure Agreement',NDA_VERSION);
+  p.pdf.save('Safeshield_NDA_Tallis_Santos.pdf');
 }
 
 function downloadICA(){
-  let t='INDEPENDENT CONTRACTOR AGREEMENT\n'+'='.repeat(50)+'\n\nState of Connecticut | '+dateStr+'\nDocument Version: '+ICA_VERSION+'\n\n';
-  t+='Between Safeshield Insurance LLC and '+icaN.value.trim()+'\n\n';
-  t+='1. SCOPE OF SERVICES: Insurance related services including training, lead generation, calling, client communications, servicing, admin support, sales.\n\n';
-  t+='2. TRAINING & PERFORMANCE: Active participation required. Continued compensation contingent on satisfactory performance.\n\n';
-  t+='3. LICENSING: Contractor responsible for all licenses and regulatory compliance.\n\n';
-  t+='4. COMPENSATION: Non-vested, discretionary, subject to change, earned after policies bound, subject to chargebacks.\n\n';
-  t+='5. EXPENSES: Contractor responsible unless agreed otherwise.\n\n';
-  t+='6. TERMINATION: At will. 30 days notice from Contractor. All property returned on termination.\n\n';
-  t+='7. BOOK OF BUSINESS: All clients and relationships are exclusive Safeshield property.\n\n';
-  t+='8. CONFIDENTIALITY: No disclosure or misuse of Safeshield information.\n\n';
-  t+='9. NON-SOLICITATION: 24 months post-termination.\n\n';
-  t+='10. INTELLECTUAL PROPERTY: All work product is Safeshield property.\n\n';
-  t+='11. INDEPENDENT CONTRACTOR: Not an employee. No benefits or protections.\n\n';
-  t+='12. INDEMNIFICATION: Contractor indemnifies Safeshield.\n\n';
-  t+='13. GOVERNING LAW: State of Connecticut. Binding arbitration.\n\n';
-  t+='14. SURVIVAL: Key sections survive termination.\n\n';
-  t+='15. ENTIRE AGREEMENT: Supersedes all prior agreements. Written amendments only.\n';
-  t+=buildAudit(icaN.value.trim(),icaA.value.trim(),'Independent Contractor Agreement',ICA_VERSION);
-  dlFile(t,'Safeshield_IC_Agreement_Tallis_Santos.txt');
+  const name=icaN.value.trim(),addr=icaA.value.trim();
+  const p=pdfSetup();
+  p.goldLine();
+  p.docTitle('INDEPENDENT CONTRACTOR AGREEMENT');
+  p.body('Between Safeshield Insurance LLC and '+name+' | State of Connecticut | '+dateStr);
+  p.grayLine();
+
+  p.secHead('1. Scope of Services');
+  p.body('Insurance related services including training participation, lead generation, outbound calling, client communications, servicing assistance, administrative support, sales support, and other duties as assigned.');
+
+  p.secHead('2. Training & Performance');
+  p.body('Active participation required in all training, meetings, and performance reviews. Continued compensation contingent on satisfactory performance and compliance.');
+
+  p.secHead('3. Licensing & Compliance');
+  p.body('Contractor solely responsible for obtaining and maintaining all required licenses and regulatory compliance.');
+
+  p.secHead('4. Compensation');
+  p.body('Non-vested, discretionary, subject to change at any time. Earned only after policies are bound and Safeshield receives commission. Subject to chargebacks, cancellations, rescissions, errors, and offsets. No entitlement to renewals or post-termination compensation unless agreed in writing.');
+
+  p.secHead('5. Expenses');
+  p.body('Contractor responsible for all costs and expenses unless agreed otherwise in writing.');
+
+  p.secHead('6. Term & Termination');
+  p.body('At will. Safeshield may terminate at any time. Contractor may terminate upon 30 days written notice. Immediate termination for cause. Upon termination: all property returned, system access ceases, unpaid compensation may be forfeited upon breach.');
+
+  p.secHead('7. Ownership of Book of Business');
+  p.body('All clients, leads, policies, renewals, and business relationships are exclusive property of Safeshield. Contractor has no ownership interest.');
+
+  p.secHead('8. Confidentiality');
+  p.body('Contractor shall not disclose, misuse, copy, or exploit Safeshield confidential information. Shall not replicate or reverse engineer Safeshield systems.');
+
+  p.secHead('9. Non-Solicitation');
+  p.body('For 24 months post-termination, Contractor shall not solicit Safeshield clients, employees, or contractors.');
+
+  p.secHead('10. Intellectual Property');
+  p.body('All work product is deemed work made for hire and exclusive property of Safeshield.');
+
+  p.secHead('11. Independent Contractor');
+  p.body('Contractor is not an employee. No benefits, tax withholding, or employment protections.');
+
+  p.secHead('12. Indemnification');
+  p.body('Contractor shall indemnify Safeshield from any claims arising from Contractor\'s acts, omissions, or breach.');
+
+  p.secHead('13. Governing Law');
+  p.body('State of Connecticut. Binding arbitration in Stamford, CT.');
+
+  p.secHead('14. Survival');
+  p.body('Confidentiality, ownership, non-solicitation, IP, indemnification, and dispute resolution survive termination.');
+
+  p.secHead('15. Entire Agreement');
+  p.body('Supersedes all prior agreements. Written amendments only.');
+
+  p.signatures(name,addr,'Independent Contractor Agreement',ICA_VERSION);
+  p.pdf.save('Safeshield_IC_Agreement_Tallis_Santos.pdf');
 }
 </script>
 </body>
